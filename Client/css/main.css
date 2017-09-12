@@ -1,0 +1,15 @@
+.topMargin {
+    margin-top: 50px;
+}
+
+
+#view1 {
+    background-color: yellow;
+}
+
+#view2 {
+    background-color: green;
+}
+#wrapper {
+    background-color: orange;
+}
