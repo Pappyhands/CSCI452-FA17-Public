@@ -14,15 +14,37 @@ body,html{
   display:  flex;
 }
 
-.snippet{
-    
+.snippet {
+    width: 48%;
+    padding: 1%;
+    margin: 1%;
+    background-color: rgb(239, 239, 255);
+    font-size: 16px;
 }
 
-.snippet-list{
-    
+.snippet-header {
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 3px;
+    font-size: 28px;
 }
 
-.snippet-list-container{
+.snippet-description {
+    border: 1px solid black;
+    font-style: italic;
+    font-size: 18px;
+}
+
+.snippet-code {
+    border: 1px solid black;
+}
+
+.snippet-list {
+    width: 98%;
+    margin: 1%;
+}
+
+.snippet-list-container {
     
 }
 
