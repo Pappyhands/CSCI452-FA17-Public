@@ -1,6 +1,38 @@
+body,html{
+    height: 100%;
+}
+
 .topMargin {
     margin-top: 50px;
 }
+
+/*Allows for all columns in a row to always be the same height*/
+.row-eq-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:  flex;
+}
+
+.snippet{
+    
+}
+
+.snippet-list{
+    
+}
+
+.snippet-list-container{
+    
+}
+
+.top-bar-height{
+    min-height: 100px;
+}
+
+
+
+
 
 
 #view1 {
@@ -11,5 +43,6 @@
     background-color: green;
 }
 #wrapper {
-    background-color: orange;
+    background-color: grey;
 }
+/**/
