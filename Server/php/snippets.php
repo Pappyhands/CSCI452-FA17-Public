@@ -1,10 +1,9 @@
- 
 <?php
 require_once "functions.php";
 require_once 'dblogin.php';
 
-// session_start();
-// header("Access-Control-Allow-Origin: *");
+session_start();
+header("Access-Control-Allow-Origin: *");
 
 // Create connection
 $conn = new mysqli($db_hostname, $db_username, $db_password, $db_database, $db_port);
@@ -19,7 +18,7 @@ $cmd = getValue("cmd", "list");
 if ($cmd == "list")
 {
     $response = listAll($conn);
-    // header('Content-type: application/json');
+    header('Content-type: application/json');
     echo json_encode($response);
 }
 else // unknown commad so list all supported commands
@@ -37,13 +36,13 @@ else // unknown commad so list all supported commands
 function listAll($conn)
 {
 
-    $stmt = "SELECT * FROM Snippet_Data";
+    $stmt = "SELECT * FROM Snippet_Data INNER JOIN User_Data AS Users ON Users.UserID=Snippet_Data.CreatorID";
     $result = mysqli_query($conn, $stmt);
     $snippet = array();
     $snippets = array();
     while($row = mysqli_fetch_assoc($result)) {
         $snippet["id"] = $row["SnippetID"];
-        $snippet["creator"] = $row["CreatorID"];
+        $snippet["creator"] = $row["Username"];
         $snippet["description"] = $row["Description"];
         $snippet["language"] = $row["Language"];
         array_push($snippets, $snippet);
