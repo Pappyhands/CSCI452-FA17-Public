@@ -1,0 +1,17 @@
+DROP DATABASE IF EXISTS SnippetGoodDatabase;
+CREATE DATABASE SnippetGoodDatabase;
+USE SnippetGoodDatabase;
+
+CREATE TABLE User_Data(
+UserID BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+Username VARCHAR(32) NOT NULL,
+Passwrd VARCHAR(32) NOT NULL
+);
+
+CREATE TABLE Snippet_Data(
+CreatorID BIGINT,
+Language VARCHAR(32),
+Description TEXT NOT NULL,
+FOREIGN KEY (CreatorID) REFERENCES User_Data(UserID)
+);
+
