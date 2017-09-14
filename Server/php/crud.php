@@ -101,10 +101,9 @@ function delete($conn)
     return $response;
 }
 
-// select a collection af objects based on some criteria
+// select a collection of objects based on some criteria
 function listAll($conn)
 {
-    // code goes here...
 
     // add anything you want to the response JSON...
     $response["status"] = "OK"; 
