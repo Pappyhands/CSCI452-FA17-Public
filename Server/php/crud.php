@@ -1,7 +1,6 @@
- 
 <?php
-require_once "functions.php";
-require_once 'dblogin.php';
+require_once('functions.php');
+require_once('dblogin.php');
 
 session_start();
 header("Access-Control-Allow-Origin: *");

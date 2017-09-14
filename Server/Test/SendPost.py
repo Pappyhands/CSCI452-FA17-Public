@@ -1,31 +1,31 @@
 import json
 import urllib2
 
-# be sure to make your applicaiton public by using the Window->Share menu item in Cloud 9
-url = 'https://software-engineering-proudfoot.c9users.io/Server/php/snippets.php?cmd=list'
+!be sure to make your applicaiton public by using the Window->Share menu item in Cloud 9
+url = 'http://ide.c9.io/proudfoot/software-engineering/Server/php/snippets.php?cmd=list'
+jsonTxt = urllib2.urlopen(url).read()
+print jsonTxt
 
 testPassed = True
 
-jsonTxt = urllib2.urlopen(url).read()
-
-#check if the response is valid JSON
+!check if the response is valid JSON
 try:
     json = json.loads(jsonTxt)
 except ValueError, e:
     print "Invalid JSON Error: %s" % e
     testPassed = False
     
-#check the success of the response
+!check the success of the response
 if json["status"] != "OK":
     testPassed = False
     print "Server response unsuccessful"
     
-#check for the snippet array
+!check for the snippet array
 if json["snippets"] is None:
     testPassed = False
     print "snippets not found"
     
-#check the values of the array
+!check the values of the array
 for i in json["snippets"]: 
    if not isinstance(i["id"], int):
        testPassed = False
