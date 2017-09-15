@@ -2,7 +2,7 @@
     $db_hostname = getenv('IP');
     $db_username = getenv('C9_USER');
     $db_password = '';
-    $db_database = 'SnippetGoodDatabase'; //change to "snippet" when possible
+    $db_database = 'SnippetGoodDatabase';
     $db_port = 3306;
 
     // Create connection
@@ -12,5 +12,4 @@
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     } 
-    // echo "Connected successfully (".$conn->host_info.")";
 ?>

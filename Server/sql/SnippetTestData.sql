@@ -1,3 +1,4 @@
+USE SnippetGoodDatabase;
 
 INSERT INTO User_Data(Username, Passwrd)VALUES ("WizardProfessor", "SchoolRocks123");
 INSERT INTO User_Data(Username, Passwrd)VALUES ("Aaron Smith","M4R10");
