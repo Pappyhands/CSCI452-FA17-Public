@@ -1,41 +1,63 @@
 <?php
+   header('Content-type: application/json');
+   header("Access-Control-Allow-Origin: *");
 require_once "functions.php";
 require_once 'dblogin.php';
 
 session_start();
-header("Access-Control-Allow-Origin: *");
+
 
 // Create connection
 $conn = new mysqli($db_hostname, $db_username, $db_password, $db_database, $db_port);
 
 // Check connection
-if ($conn->connect_error) {
+if ($conn->connect_error)
+{
     die("Connection failed: " . $conn->connect_error);
 } 
 
-$cmd = getValue("cmd", "list");
+// Definition for init_response() function is in functions.php
+$response = initResponse();
+
+$cmd = getValue("cmd", "docs");
  
 if ($cmd == "list")
 {
-    $response = listAll($conn);
-    header('Content-type: application/json');
-    echo json_encode($response);
-}
-else // unknown commad so list all supported commands
+    try 
+    {
+        $response = listAll($conn, $response);
+    }
+    catch (Exception $e)
+    {
+        echo "caught exception at listAll";
+        $response["errmsg"] = "Something went wrong with snippets list";
+        $response["status"] = "ERROR";
+    }
+} 
+else if ($cmd == "docs") // default with no cmd found
 {
-  echo
-  "
-    <pre>
-    
-        The only supported command for snippets is list.
-        
-    </pre>
-  ";
+    try
+    {
+        $response = showDocumentation($conn, $response);
+    }
+    catch (Exception $e)
+    {
+        $response["errmsg"] = "Something went wrong with snippets documentation";
+        $response["status"] = "ERROR";
+    }
 }
-// select a collection af objects based on some criteria
-function listAll($conn)
+else // invalid 'cmd' parameter
 {
+    $response["errmsg"] = "Invalid cmd value";
+    $response["status"] = "ERROR";
+}
 
+echo json_encode($response);
+
+
+// get all snippets in the database
+function listAll($conn, $response)
+{
     $stmt = "SELECT * FROM Snippet_Data INNER JOIN User_Data AS Users ON Users.UserID=Snippet_Data.CreatorID";
     $result = mysqli_query($conn, $stmt);
     $snippet = array();
@@ -48,11 +70,19 @@ function listAll($conn)
         array_push($snippets, $snippet);
     }    
     
-    
-    // add anything you want to the response JSON...
     $response["status"] = "OK"; 
     $response["snippets"] = json_encode($snippets);
     
     return $response;
 }
+
+// get documentation for snippets.php
+function showDocumentation($conn, $response)
+{
+    $response["documentation"] = "Someone needs to write the documentation";
+    $response["status"] = "OK";
+    
+    return $response;
+}
+
 ?>

@@ -51,4 +51,13 @@ function sanitize($t)
 	}
 	return $output;
 }
+
+function initResponse()
+{
+	$response = array();
+	$response["status"] = "";
+	$response["errmsg"] = "";
+	
+	return $response;
+}
 ?>
