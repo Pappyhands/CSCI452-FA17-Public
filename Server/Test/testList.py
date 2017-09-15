@@ -2,7 +2,7 @@ import json
 import urllib2
 
 # be sure to make your applicaiton public by using the Window->Share menu item in Cloud 9
-url = 'http://software-engineering-proudfoot.c9users.io//Server/php/snippets.php?cmd=list'
+url = 'http://software-engineering-proudfoot.c9users.io//Server/Test/php/snippets.php?cmd=list'
 jsonTxt = urllib2.urlopen(url).read()
 
 testPassed = True
