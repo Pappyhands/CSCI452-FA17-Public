@@ -1,1 +1,0 @@
-This folder contains SQL sripts for creating the metadata and for populating tables with test data.
