@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	    <title>Ajax</title>
+	
+	    <!-- Bootstrap -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+	
+	</head>
+	
+	<body>
+		<div class="container" style="margin-top: 50px">
+	    	<button id="btnAjax" class="btn btn-default" type="button">Ajax Test</button>
+		</div>
+
+		<!-- jquery -->
+		<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+		<script>
+		    var model = [];
+		    
+			$("#btnAjax").click(function () 
+			{
+    	        post("../xServer/php/crud.php?cmd=create",
+    	             "",
+    	             function() { alert("Result: " + model.status);},
+    	             function() { alert("Error"); }
+    	             );
+			});
+            function post(url, data, onSuccess, onError)
+            {
+                var request = $.post(url, data);
+                
+                request.done(function(json)
+                {
+                    model = json;
+                    console.log(model);
+                    onSuccess();
+                });
+                
+                request.fail(function(jqXHR, textStatus, errorThrown)
+                {
+                    $("#response").text(textStatus);
+                    console.log("fail object ", jqXHR);
+                    console.log("error thrown ", errorThrown);
+                    onError();
+                });
+            }			
+		</script>
+	</body>
+</html>

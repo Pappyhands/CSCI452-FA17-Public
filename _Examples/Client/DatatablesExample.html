@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	    <title>Tables</title>
+	
+	    <!-- Bootstrap -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+	
+		<!-- datatables -->
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.4/css/jquery.dataTables.min.css">
+	</head>
+	
+	<body>
+		<div class="container" style="margin-top: 50px">
+			<table id="example" class="display" cellspacing="0" width="100%">
+		        <thead>
+		            <tr>
+		                <th>Name</th>
+		                <th>Position</th>
+		                <th>Office</th>
+		                <th>Age</th>
+		                <th>Start date</th>
+		                <th>Salary</th>
+		            </tr>
+		        </thead>
+	
+		        <tfoot>
+		            <tr>
+		                <th>Name</th>
+		                <th>Position</th>
+		                <th>Office</th>
+		                <th>Age</th>
+		                <th>Start date</th>
+		                <th>Salary</th>
+		            </tr>
+		        </tfoot>
+	
+		        <tbody>
+		        </tbody>
+	    	</table>
+	    	<button id="btnReload" class="btn btn-default" type="button">Reload</button>
+		</div>
+
+		<!-- jquery -->
+		<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+		<!-- datatables -->
+		<script src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+
+		<script>
+			// typically this would come from PHP via ajax
+			var model =
+			[
+				{name: "Frank", pos: "Boss", office:"nice one", age: 40, sd: "1/1/2009", sal: 100000},
+				{name: "Sally", pos: "Bigger Boss", office:"nicer one", age: 43, sd: "2/2/2005", sal: 200000}
+			];
+			$(document).ready(function()
+			{
+				$('#example').DataTable( {
+			        data: model,
+			        columns: [
+			            { data: 'name'}, //0
+			            { data: 'pos' }, //1
+			            { data: 'office' }, //2
+			            { data: 'age' }, //3
+			            { data: 'sd' },  //4
+						{ data: 'sal' },  //4
+			        ],
+			    } );
+			    
+			} );
+			
+			$("#btnReload").click(function () {
+				
+				// typically we would fetch the model from the serer again...
+				model[1].pos = "Super Boss!";
+				
+		        var oTable = $('#example').dataTable();
+		        oTable.fnClearTable();
+        		oTable.fnDestroy();
+				$('#example').DataTable( {
+			        data: model,
+			        columns: [
+			            { data: 'name'}, //0
+			            { data: 'pos' }, //1
+			            { data: 'office' }, //2
+			            { data: 'age' }, //3
+			            { data: 'sd' },  //4
+						{ data: 'sal' },  //4
+			        ],
+			    } );
+			    
+			})
+			
+			$('#example tbody').on( 'click', 'tr', function () {
+				
+			    var oTable = $('#example').DataTable();
+			    if ( $(this).hasClass('selected') ) 
+			    {
+			        $(this).removeClass('selected');
+			        model.selectedPerson = null;
+			    }
+			    else 
+			    {
+			        model.selectedPerson = oTable.row( this ).data();
+			        oTable.$('tr.selected').removeClass('selected');
+			        $(this).addClass('selected');
+			        alert("You selected " + model.selectedPerson.name);
+			    }
+			    
+			});
+			
+		</script>
+	</body>
+</html>
