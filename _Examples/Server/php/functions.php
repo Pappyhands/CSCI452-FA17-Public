@@ -1,5 +1,4 @@
 <?php
-
 /*
   This function allows you to write code that does not care if
   you are working with HTTP GET or HTTP POST
@@ -17,7 +16,6 @@ function getValue($key, $default)
 		$ret = $_POST[$key];
 	return sanitize($ret);
 }
-
 function getSessionValue($key, $def)
 {
 	$ret = $def;
@@ -27,12 +25,10 @@ function getSessionValue($key, $def)
 		$_SESSION[$key] = $def;
 	return $ret;
 }
-
 function setSessionValue($key, $value)
 {
 	$_SESSION[$key] = $value;
 }
-
 function sanitize($t)
 {
 	global $db_server;
@@ -50,14 +46,5 @@ function sanitize($t)
 		$output = htmlentities($output, ENT_NOQUOTES);
 	}
 	return $output;
-}
-
-function initResponse()
-{
-	$response = array();
-	$response["status"] = "";
-	$response["errmsg"] = "";
-	
-	return $response;
 }
 ?>
