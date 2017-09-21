@@ -82,23 +82,12 @@ function filterByLanguage() {
 
 
 let sortedCreator = false;
-function sortCreator() 
-{
+function sortCreator() {
     let sortAlgorithm;
     if (sortedCreator)
-    {
-        sortAlgorithm = function (a, b) 
-        {
-            return a.creator < b.creator;
-        };
-    } 
+        sortAlgorithm = (a, b) => a.creator < b.creator;
     else 
-    {
-        sortAlgorithm = function (a, b) 
-        {
-            return a.creator > b.creator;
-        };
-    }
+        sortAlgorithm = (a, b) => a.creator > b.creator;
     snippetData.sort(sortAlgorithm);
     sortedCreator = !sortedCreator;
     displaySnippets();
@@ -108,15 +97,10 @@ function sortCreator()
 let sortedLanguage = false;
 function sortLanguage() {
     let sortalg;
-    if (sortedLanguage) {
-        sortalg = function (a, b) {
-            return a.language < b.language;
-        };
-    } else {
-        sortalg = function (a, b) {
-            return a.language > b.language;
-        }
-    }
+    if (sortedLanguage)
+        sortalg = (a, b) => a.language < b.language;
+    else
+        sortalg = (a, b) => a.language > b.language;
     snippetData.sort(sortalg);
     sortedLanguage = !sortedLanguage;
     displaySnippets();
