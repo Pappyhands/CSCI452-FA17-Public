@@ -31,16 +31,10 @@
                         <table class="table table-condensed">
                             <tbody>
                                 <tr>
-                                    <td><button id="switch1" class="btn btn-default" type="button">Test Link</button></td>
+                                    <td><button id="switch1" class="btn btn-default" type="button">Sort By Creator</button></td>
                                 </tr>
                                 <tr>
-                                    <td><button id="switch2" class="btn btn-default" type="button">Test Link </button></td>
-                                </tr>
-                                <tr>
-                                    <td><button id="switch3" class="btn btn-default" type="button">Test Link </button></td>
-                                </tr>
-                                <tr>
-                                    <td><button id="switch4" class="btn btn-default" type="button">Test Link </button></td>
+                                    <td><button id="switch2" class="btn btn-default" type="button">Sort By Language </button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -55,12 +49,14 @@
 						  <option value="java">Java</option>
 						  <option value="javascript">JavaScript</option>
 						  <option value="ruby">Ruby</option>
+						  <option value="html">HTML</option>
+						  <option value="sql">SQL</option>
+
 						</select>
 					</p>
 					<p>
+						<input type="radio" name="filter_option" id="filter_creator" checked> Creator
 						<input type="radio" name="filter_option" id='filter_description'> Description
-						<input type="radio" name="filter_option" id="filter_creator"> Creator
-						<input type="radio" name="filter_option" id="filter_langauge"> Langauge
 					</p>
         		   	<p>
 	        		   	<button id="filter" class="btn btn-default" type="button">Filter</button>
