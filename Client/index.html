@@ -34,23 +34,38 @@
                                     <td><button id="switch1" class="btn btn-default" type="button">Test Link</button></td>
                                 </tr>
                                 <tr>
-                                    <td><button id="switch2" class="btn btn-default" type="button">Click Me2 </button></td>
+                                    <td><button id="switch2" class="btn btn-default" type="button">Test Link </button></td>
                                 </tr>
                                 <tr>
-                                    <td><button id="switch3" class="btn btn-default" type="button">Click Me3 </button></td>
+                                    <td><button id="switch3" class="btn btn-default" type="button">Test Link </button></td>
                                 </tr>
                                 <tr>
-                                    <td><button id="switch4" class="btn btn-default" type="button">Click Me4 </button></td>
+                                    <td><button id="switch4" class="btn btn-default" type="button">Test Link </button></td>
                                 </tr>
                             </tbody>
                         </table>
         		   </div>
         		   <!--JavaScript/Snippet Area-->
         		   <div id="snippet-list-container" class="col-md-10 snippet-list-container bg-info">
-        		   	<p><input type="text" name="search" placeholder="Search.."></p>
-        		   	<button id="filter_creator" class="btn btn-default" type="button">Filter by Creator </button>
-        		   	<button id="filter_language" class="btn btn-default" type="button">Filter by Programming Language </button>
-        		   	<button id="filter_description" class="btn btn-default" type="button">Filter by Description</button>
+        		   	<p>
+        		   		<input type="text" name="search" placeholder="Search..">
+        		   		<select>
+        		   	      <option value="default">-----</option>
+						  <option value="php">PHP</option>
+						  <option value="java">Java</option>
+						  <option value="javascript">JavaScript</option>
+						  <option value="ruby">Ruby</option>
+						</select>
+					</p>
+					<p>
+						<input type="radio" name="filter_option" id='filter_description'> Description
+						<input type="radio" name="filter_option" id="filter_creator"> Creator
+						<input type="radio" name="filter_option" id="filter_langauge"> Langauge
+					</p>
+        		   	<p>
+	        		   	<button id="filter" class="btn btn-default" type="button">Filter</button>
+	        		   	
+        		   	</p>
         		   	<!--As an unauthenticated or authenticated user, I want to be able to filter or sort a list of snippets by creator, language, or description.-->
         		   	<!--Buttons go outside 'snippet-list'-->
             	    <div class="snippet-list">
