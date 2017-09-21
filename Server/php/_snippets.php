@@ -32,7 +32,7 @@ if ($cmd == "list")
         $response["status"] = "ERROR";
     }
 } 
-else if ($cmd == "docs") // default with no cmd found
+else // default with no cmd found
 {
     try
     {
@@ -44,11 +44,11 @@ else if ($cmd == "docs") // default with no cmd found
         $response["status"] = "ERROR";
     }
 }
-else // invalid 'cmd' parameter
-{
-    $response["errmsg"] = "Invalid cmd value";
-    $response["status"] = "ERROR";
-}
+// else // invalid 'cmd' parameter
+// {
+//     $response["errmsg"] = "Invalid cmd value";
+//     $response["status"] = "ERROR";
+// }
 
 echo json_encode($response);
 
@@ -77,8 +77,14 @@ function listAll($conn, $response)
 // get documentation for snippets.php
 function showDocumentation($conn, $response)
 {
-    $response["documentation"] = "Someone needs to write the documentation";
+    $api_command_list = array();
+    
+    $api_command["name"] = "list";
+    $api_command["description"] = "Provides a list of code snippets.";
+    array_push($api_command_list, $api_command);
+    
     $response["status"] = "OK";
+    $response["api_command_list"] = $api_command_list;
     
     return $response;
 }
