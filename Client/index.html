@@ -47,10 +47,19 @@
         		   </div>
         		   <!--JavaScript/Snippet Area-->
         		   <div id="snippet-list-container" class="col-md-10 snippet-list-container bg-info">
-        		   	<p><input type="text" name="search" placeholder="Search.."></p>
-        		   	<button id="filter_creator" class="btn btn-default" type="button">Filter by Creator </button>
-        		   	<button id="filter_language" class="btn btn-default" type="button">Filter by Programming Language </button>
-        		   	<button id="filter_description" class="btn btn-default" type="button">Filter by Description</button>
+        		   	<p>
+        		   		<input type="text" name="search" placeholder="Search..">
+        		   		<select>
+						  <option value="php">PHP</option>
+						  <option value="javascript">Java</option>
+						  <option value="javascript">JavaScript</option>
+						  <option value="ruby">Ruby</option>
+						</select>
+					</p>
+        		   	<p>
+	        		   	<button id="filter_creator" class="btn btn-default" type="button">Filter by Creator </button>
+	        		   	<button id="filter_description" class="btn btn-default" type="button">Filter by Description</button>
+        		   	</p>
         		   	<!--As an unauthenticated or authenticated user, I want to be able to filter or sort a list of snippets by creator, language, or description.-->
         		   	<!--Buttons go outside 'snippet-list'-->
             	    <div class="snippet-list">
