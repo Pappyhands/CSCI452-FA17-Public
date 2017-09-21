@@ -1,0 +1,68 @@
+Test for VS2 Clientside JS
+
+-- Buttons
+1) Look at the field with the creator/submitter names for each entry. They should be in this order:
+    Aaron Smith, Aaron Smith, Wizard Professor, Wizard Professor, Wizard Professor, Richard Dude, Richard Dude
+    
+2) Select the first 'Test Link' on the top left- this will sort the information by Creator Name in ascending order now.
+The name fields should now be in this order:
+    Aaron Smith, Aaron Smith, Richard Dude, Richard Dude, Wizard Professor, Wizard Professor, Wizard Professor.
+    
+3) Select the first 'Test Link' on the top left once again. This will sort the creator name by descending order now.
+The name fields should now be in this order:
+    Wizard Professor, Wizard Professor, Wizard Professor, Richard Dude, Richard Dude, Aaron Smith, Aaron Smith
+    
+4) Select the second 'Test Link' on the top left (directly below the first one). This sorts the data in ascending alphabetical order by programming language. The programming language should be ordered in the following order:
+    HTML, Java, Java, Java, PHP, PHP, SQL
+    
+5) Select the second 'Test Link' on the top left once more. This sorts the data in descending alphabetical order by programming language. The programming languages should be ordered in the following order:
+    SQL, PHP, PHP, Java, Java, Java, HTML.
+    
+x) If all tests pass, the buttons are working as coded. Proceed onto Menu options. 
+    
+-- Menus
+1) Underneath the 'Search' bar, select 'Description' and type in the following into the search bar: Murr
+Then click 'Filter'.
+    You should recieve the following entry(s):
+    
+        PHP
+        Richard Dude
+        Connects to the NSA and prints out all files on Evan Murray
+        /code/ /code/ /code/
+        
+    This proves that searching by description works properly.
+    
+2) Underneath the 'Search' bar, select 'Creator' and type in the following into the search bar: dude
+Then click 'Filter'.
+    You should recieve the following entry(s):
+    
+        SQL
+        Richard Dude
+        Create Snippet_Data table
+        /code/ /code/ /code/
+        
+        PHP
+        Richard Dude
+        Connects to the NSA and prints out all files on Evan Murray
+        /code/ /code/ /code/
+        
+    This proves that searching by description works properly.
+    
+3) Clear the search bar and now select 'Language' and set the drop down to 'PHP' and click 'Filter'
+    You should recieve the following entry(s):
+    
+        PHP
+        WizardProfessor
+        Database Connection
+        /code/ /code/ /code/
+        
+        PHP
+        Richard Dude
+        Connects to the NSA and prints out all files on Evan Murray
+        /code/ /code/ /code/
+        
+    This proves that searching by language works properly.
+    
+x) If all tests pass, the searchbar is working as coded. Proceed onto ---
+
+    
