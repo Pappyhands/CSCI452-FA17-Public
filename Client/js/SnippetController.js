@@ -1,3 +1,4 @@
+/* global $ */
 const getUrl = window.location;
 const baseUrl = getUrl.protocol + '//' + getUrl.host + '/';
 const URL = baseUrl + 'Server/php/snippets.php';
