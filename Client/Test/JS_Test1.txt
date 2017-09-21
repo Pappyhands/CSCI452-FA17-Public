@@ -4,18 +4,18 @@ Test for VS2 Clientside JS
 1) Look at the field with the creator/submitter names for each entry. They should be in this order:
     Aaron Smith, Aaron Smith, Wizard Professor, Wizard Professor, Wizard Professor, Richard Dude, Richard Dude
     
-2) Select the first 'Test Link' on the top left- this will sort the information by Creator Name in ascending order now.
+2) Select the first 'Sort by Creator' on the top left- this will sort the information by Creator Name in ascending order now.
 The name fields should now be in this order:
     Aaron Smith, Aaron Smith, Richard Dude, Richard Dude, Wizard Professor, Wizard Professor, Wizard Professor.
     
-3) Select the first 'Test Link' on the top left once again. This will sort the creator name by descending order now.
+3) Select the first 'Sort by Creator' on the top left once again. This will sort the creator name by descending order now.
 The name fields should now be in this order:
     Wizard Professor, Wizard Professor, Wizard Professor, Richard Dude, Richard Dude, Aaron Smith, Aaron Smith
     
-4) Select the second 'Test Link' on the top left (directly below the first one). This sorts the data in ascending alphabetical order by programming language. The programming language should be ordered in the following order:
+4) Select the second 'Sort by Language' on the top left (directly below the first one). This sorts the data in ascending alphabetical order by programming language. The programming language should be ordered in the following order:
     HTML, Java, Java, Java, PHP, PHP, SQL
     
-5) Select the second 'Test Link' on the top left once more. This sorts the data in descending alphabetical order by programming language. The programming languages should be ordered in the following order:
+5) Select the second 'Sort by Language' on the top left once more. This sorts the data in descending alphabetical order by programming language. The programming languages should be ordered in the following order:
     SQL, PHP, PHP, Java, Java, Java, HTML.
     
 x) If all tests pass, the buttons are working as coded. Proceed onto Menu options. 
@@ -48,7 +48,7 @@ Then click 'Filter'.
         
     This proves that searching by description works properly.
     
-3) Clear the search bar and now select 'Language' and set the drop down to 'PHP' and click 'Filter'
+3) Clear the search bar and now select 'PHP' and from the drop down menu and click 'Filter'
     You should recieve the following entry(s):
     
         PHP
