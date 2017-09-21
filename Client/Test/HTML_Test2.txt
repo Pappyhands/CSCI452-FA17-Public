@@ -1,0 +1,17 @@
+1. go to hosted url. 
+2. verify you see 4 code snippets.
+
+1. click filter button marked Creator
+2. enter a value (name of creator) into text reciever
+3. only snippets by the creator appears
+4. if input is bad there will be a red text message saying "No Creator by that name found."
+
+1. Click filter button marked Language
+2. Enter a value (name of language) into text reciever
+3. only snippets that are classified as in the langauge entered would appear
+4. if input is bad there will be a red text message saying "Invalid language or 
+
+1.
+2.
+3.
+4.
