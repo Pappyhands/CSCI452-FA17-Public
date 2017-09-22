@@ -6,24 +6,28 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	    <title>Snippet Good</title>
 	    <!-- Bootstrap -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" type="text/css" />
 		<link rel="stylesheet" href="css/main.css" type="text/css" />
 	</head>
 	<body>
+		<div class="container-fluid">
+	    	<nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-sm">
+	    		<div id="nav-content" class="container-fluid"style="max-width:1200px;margin:auto;width:100%;">
+		    		<a class="navbar-brand" href="#">
+		    			<img src="/Client/assets/dabs.png" width="30" height="30" class="d-inline-block align-top" alt=""/>
+		    			SnippetGood
+		    		</a>
+	    		   	<div class="collapse navbar-collapse justify-content-end">
+	    		   	    <div class="navbar-nav">
+					    	<a class="nav-item nav-link active" href="#">Login</a>
+						</div>    		   		
+	    		   	</div>	
+	    		</div>
+    		</nav>	
+		</div>
 	    <div id="wrapper" class="container-fluid">
     		<div class="container-fluid topMargin">
-    		   <!--TOP ROW-->
-    		   <div class="row row-eq-height">
-    		       <!--Logo Area-->
-    		       <div class="col-md-9 bg-warning">
-    		       <h1>LOGO</h1>
-    		       </div>
-    		       <!--Login Area-->
-    		       <div class="col-md-3 bg-primary">
-    		       <h1>LOGIN</h1>
-    		       </div>
-    		   </div>
-    		   <!--BOTTOM ROW-->
     		   <div class="row row-eq-height">
     		       <!--Menu Area-->
         		   <div class="col-md-2 bg-danger">
@@ -41,33 +45,16 @@
         		   </div>
         		   <!--JavaScript/Snippet Area!-->
         		   <div id="snippet-list-container" class="col-md-10 snippet-list-container bg-info">
-        		   	<p>
-        		   		<input type="text" name="search" placeholder="Search..">
-        		   		<select id="lang-dropdown">
-        		   	      <option value="default">-----</option>
-						  <option value="php">PHP</option>
-						  <option value="java">Java</option>
-						  <option value="javascript">JavaScript</option>
-						  <option value="ruby">Ruby</option>
-						  <option value="html">HTML</option>
-						  <option value="sql">SQL</option>
-
-						</select>
-					</p>
-					<p>
-						<input type="radio" name="filter_option" id="filter_creator" checked> Creator
-						<input type="radio" name="filter_option" id='filter_description'> Description
-					</p>
-        		   	<p>
-	        		   	<button id="filter" class="btn btn-default" type="button">Filter</button>
-	        		   	
-        		   	</p>
-        		   	<!--As an unauthenticated or authenticated user, I want to be able to filter or sort a list of snippets by creator, language, or description.-->
-        		   	<!--Buttons go outside 'snippet-list'-->
-            	    <div class="snippet-list">
-						
-            	    </div>
-            	    <!-- Where the Snippets would ideally populate-->
+	        		   	<table id="snippets-table" class="display" cellspacing="0" width="100%">
+					        <thead>
+					            <tr>
+					                <th>Creator</th>
+					                <th>Description</th>
+					                <th>Language</th>
+					            </tr>
+					        </thead>
+					        <tbody></tbody>
+					    </table>
         		   </div>
     		   </div>
     		</div>
@@ -75,7 +62,9 @@
 		<!-- jquery -->
 		<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+		<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 		<!---->
+		<script src="js/SnippetsModelModule.js"></script>
 		<!-- controller js -->
 		<script src="js/SnippetController.js"></script>
 		<!---->

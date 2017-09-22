@@ -3,7 +3,7 @@ body, html {
 }
 
 .topMargin {
-    margin-top: 50px;
+    margin-top: 55px;
 }
 
 /*Allows for all columns in a row to always be the same height*/
@@ -53,5 +53,9 @@ body, html {
 }
 
 #wrapper {
-    background-color: grey;
+    background-color: transparent;
+    max-width: 1200px;
+}
+#nav-content {
+    max-width: 1200px;
 }
