@@ -2,60 +2,18 @@ body, html {
     height: 100%;
 }
 
-.topMargin {
+#nav-content {
+    max-width: 1200px;
+}
+
+#page-content {
     margin-top: 55px;
-}
-
-/*Allows for all columns in a row to always be the same height*/
-.row-eq-height {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display:  flex;
-}
-
-.snippet {
-    width: 48%;
-    padding: 1%;
-    margin: 1%;
-    background-color: rgb(239, 239, 255);
-    font-size: 16px;
-}
-
-.snippet-header {
-    width: 100%;
-    border: 1px solid black;
-    border-radius: 3px;
-    font-size: 28px;
-}
-
-.snippet-description {
-    border: 1px solid black;
-    font-style: italic;
-    font-size: 18px;
-}
-
-.snippet-code {
-    border: 1px solid black;
-}
-
-.snippet-list {
-    width: 98%;
-    margin: 1%;
-}
-
-#view1 {
-    background-color: yellow;
-}
-
-#view2 {
-    background-color: green;
+    padding-top: 15px;
+    background-color: #ddd;
+    height: 91vh;
 }
 
 #wrapper {
     background-color: transparent;
-    max-width: 1200px;
-}
-#nav-content {
     max-width: 1200px;
 }
