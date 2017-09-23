@@ -28,17 +28,72 @@
 		</div>
 	    <div id="wrapper" class="container-fluid">
     		<div id="page-content" class="container-fluid">
-    		   <div class="row">
-        		   <div id="snippet-list-container" class="col-sm-12 snippet-list-container">
+    			<div class="row justify-content-center">
+    				<div id="snippet-container" class="col-8 col-xl-6">
+    						<div class="card">
+    							<div class="card-header" style="max-height:400px;">
+    								<pre id="snippet-frame"><code>
+(function SnippetsModelModule(global) {
+    function SnippetsModel() {
+        var snippets = {};
+        function updateSnippetsList(newList) {
+            snippets = newList;
+        }
+        return {
+            getSnippets(){ return snippets; },
+            updateSnippetsList,
+        };
+    }
+    
+    function Filters() {
+        var orderBy = '';
+        var filterBy = {};
+        
+        function defaultOrdering() { orderBy = ''; }
+        function defaultFilters() { filterBy = {}; }
+        function addFilter(property, value) { filterBy[property] = value; }
+        function removeFilter(property) { delete filterBy[property]; }
+        function order(property) { orderBy = property; }
+        
+        return {
+            getOrder() { return orderBy; },
+            getFilters() { return filterBy; },
+            defaultOrdering,
+            defaultFilters,
+            addFilter,
+            removeFilter,
+            setOrder: order,
+        };
+    }
+    
+    try {
+        global.model = new SnippetsModel();
+        global.filters = new Filters();
+    } catch (ex) {
+        console.error('Model failed to initialize:');
+        console.trace();
+    }
+})(window);</code></pre>	
+    							</div>
+  								<div class="card-block">
+    								<h4 class="card-title">Author</h4>
+    								<p class="card-text">Description</p>
+    								<a href="#" class="btn btn-primary">Copy</a>
+								</div>
+    					</div>
+    				</div>
+        		   	<div id="snippet-list-container" class="col-12 col-xl-6">
 	        		   	<table id="snippets-table" class="display" cellspacing="0" width="100%">
 					        <thead>
-					            <tr>
-					                <th>Creator</th>
-					                <th>Description</th>
-					                <th>Language</th>
-					            </tr>
-					        </thead>
-					        <tbody></tbody>
+								<tr>
+									<th>Creator</th>
+									<th>Description</th>
+									<th>Language</th>
+								</tr>
+							</thead>
+						<tbody>
+						<!-- Table is empty pending snippets ajax response -->
+						</tbody>
 					    </table>
         		   </div>
     		   </div>

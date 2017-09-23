@@ -8,7 +8,9 @@ const baseUrl = getUrl.protocol + '//' + getUrl.host + '/';
 const URL = baseUrl + 'Server/php/snippets.php';
 
 $(document).on('ready', function() {
-    window.snippetsTable = $('#snippets-table').DataTable();
+    window.snippetsTable = $('#snippets-table').DataTable({
+        "bLengthChange" : false, //thought this line could hide the LengthMenu
+    });
     getSnippets();
 }); 
 
