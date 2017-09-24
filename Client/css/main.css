@@ -1,3 +1,4 @@
+
 #nav-content {
     max-width: 1200px;
     padding: 0px 30px;
@@ -21,11 +22,10 @@
 }
 
 #snippet-frame {
-    max-height: 380px;
-    font-size: 10px;
+    max-height: 500px;
     border-top: solid #bbb 1px;
     border-bottom: solid #bbb 1px;
-    box-shadow: 3px 3px 8px #bbbbbb;
+    box-shadow: 4px 4px 8px #444;
 }
 
 .card-block {
