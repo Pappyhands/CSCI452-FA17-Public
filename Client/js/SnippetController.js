@@ -9,9 +9,24 @@ const URL = baseUrl + 'Server/php/snippets.php';
 
 $(document).on('ready', function() {
     window.snippetsTable = $('#snippets-table').DataTable({
+        'rowID': 'id',
+        "columnDefs": [
+            {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            } 
+        ],
         "bLengthChange" : false, //thought this line could hide the LengthMenu
     });
     getSnippets();
+    $('#snippets-table tbody').on( 'click', 'tr', function () {
+        $('#snippets-table tbody').find('tr.selected').removeClass('selected');
+        $(this).addClass('selected')
+        model.setSelectedSnippet(snippetsTable.row('.selected').data()[0]);
+        updateSnippet();
+    } );
+
 }); 
 
 function getSnippets() {
@@ -24,11 +39,15 @@ function getSnippets() {
     });
 }
 
+function updateSnippet(){
+    console.log(model.getSelectedSnippet());
+}
 
 function updateView() {
     let snippets = model.getSnippets();
     $.each(snippets, function(index, snippet) {
         snippetsTable.row.add([
+            snippet['id'],
             snippet['creator'],
             snippet['description'],
             snippet['language']
