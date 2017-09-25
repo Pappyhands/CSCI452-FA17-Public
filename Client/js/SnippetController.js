@@ -1,32 +1,28 @@
-/* 
-    global $ 
-    global model
-    global snippetsTable
-*/
+/* global $ model snippetsTable Prism */
+
 const getUrl = window.location;
 const baseUrl = getUrl.protocol + '//' + getUrl.host + '/';
 const URL = baseUrl + 'Server/php/snippets.php';
 
-$(document).on('ready', function() {
+$(document).ready( function() {
     window.snippetsTable = $('#snippets-table').DataTable({
         'rowID': 'id',
-        "columnDefs": [
+        'columnDefs': [
             {
-                "targets": [ 0 ],
-                "visible": false,
-                "searchable": false
-            } 
+                'targets': [ 0 ],
+                'visible': false,
+                'searchable': false,
+            }
         ],
-        "bLengthChange" : false, //thought this line could hide the LengthMenu
+        'bLengthChange': false,
     });
-    getSnippets();
+    
     $('#snippets-table tbody').on( 'click', 'tr', function () {
-        $('#snippets-table tbody').find('tr.selected').removeClass('selected');
-        $(this).addClass('selected')
-        model.setSelectedSnippet(snippetsTable.row('.selected').data()[0]);
+        model.setSelectedSnippet(snippetsTable.row(this));
         updateSnippet();
     } );
-
+    
+    getSnippets();
 }); 
 
 function getSnippets() {
@@ -39,8 +35,19 @@ function getSnippets() {
     });
 }
 
-function updateSnippet(){
-    console.log(model.getSelectedSnippet());
+function updateSnippet() {
+    var snippet = model.getSelectedSnippet();
+    var row = model.getSnippetRow();
+    $('#snippets-table tbody')
+        .find('tr.selected')
+        .removeClass('selected');
+    $(row.node()).addClass('selected');
+    var code = $('#snippet-frame')
+        .find('code')
+        .removeClass()
+        .addClass('language-' + snippet.language.toLowerCase()) // not sure if this works for all languages
+        .text(snippet.code);
+    Prism.highlightElement(code.get(0));
 }
 
 function updateView() {
@@ -51,7 +58,7 @@ function updateView() {
             snippet['creator'],
             snippet['description'],
             snippet['language']
-        ])
+        ]);
     });
     snippetsTable.draw();
 }
@@ -62,7 +69,7 @@ function httpGetAsync(theUrl, callback) {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
             callback(xmlHttp.responseText);
         }
-    }
+    };
     xmlHttp.open("GET", theUrl, true);
     xmlHttp.send(null);
 }

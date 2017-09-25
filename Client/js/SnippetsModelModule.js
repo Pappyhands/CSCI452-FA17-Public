@@ -1,25 +1,22 @@
 (function SnippetsModelModule(global) {
     function SnippetsModel() {
         var snippets = [];
-        var selectedSnippet = 0;
-        function updateSnippetsList(newList) {
-            snippets = newList;
-        }
+        var selectedSnippet = null;
         
-        function getSelectedSnippet() {
+        function fetchSelectedSnippet() {
+            let id = selectedSnippet.data()[0];
             var result = snippets.filter(function( obj ) {
-                return obj.id == selectedSnippet;
+                return obj.id == id;
             });
             return result[0];
         }
-        
-        function setSelectedSnippet(id) { selectedSnippet = id; }
-        
+
         return {
             getSnippets(){ return snippets; },
-            updateSnippetsList,
-            getSelectedSnippet,
-            setSelectedSnippet,
+            getSnippetRow() { return selectedSnippet; },
+            updateSnippetsList(newList) { snippets = newList; },
+            setSelectedSnippet(row) { selectedSnippet = row; },
+            getSelectedSnippet: fetchSelectedSnippet,
         };
     }
     

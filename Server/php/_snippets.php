@@ -56,7 +56,7 @@ echo json_encode($response);
 // get all snippets in the database
 function listAll($conn, $response)
 {
-    $stmt = "SELECT * FROM Snippet_Data INNER JOIN User_Data AS Users ON Users.UserID=Snippet_Data.CreatorID";
+    $stmt = "SELECT * FROM Snippet_Data INNER JOIN User_Data AS Users ON Users.UserID=Snippet_Data.CreatorID INNER JOIN Language_Data AS Languages ON Languages.LanguageID=Snippet_Data.LanguageID";
     $result = mysqli_query($conn, $stmt);
     $snippet = array();
     $snippets = array();
@@ -64,7 +64,8 @@ function listAll($conn, $response)
         $snippet["id"] = $row["SnippetID"];
         $snippet["creator"] = $row["Username"];
         $snippet["description"] = $row["Description"];
-        $snippet["language"] = $row["Language"];
+        $snippet["language"] = $row["LanguageName"];
+        $snippet["code"] = $row["Snippet"];
         array_push($snippets, $snippet);
     }    
     
