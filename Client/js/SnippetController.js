@@ -1,4 +1,4 @@
-/* global $ model snippetsTable Prism */
+/* global $ model snippetsTable */
 
 const getUrl = window.location;
 const baseUrl = getUrl.protocol + '//' + getUrl.host + '/';
@@ -6,13 +6,11 @@ const URL = baseUrl + 'Server/php/snippets.php';
 
 $(document).ready(function() {
     window.snippetsTable = $('#snippets-table').DataTable({
-        'columnDefs': [
-            {
-                'targets': [ 0 ],
-                'visible': false,
-                'searchable': false,
-            }
-        ],
+        'columnDefs': [{
+            'targets': [ 0 ],
+            'visible': false,
+            'searchable': false,
+            }],
     });
     
     $('#snippets-table tbody').on( 'click', 'tr', function () {
@@ -42,7 +40,7 @@ function updateSnippet() {
         .find('tr.selected')
         .removeClass('selected');
     $(row.node()).addClass('selected');
-    var code = $('#snippet-frame')
+    $('#snippet-frame')
         .find('code')
         .text(snippet.code);
 }
