@@ -1,19 +1,36 @@
-body, html {
-    height: 100%;
-}
-
 #nav-content {
     max-width: 1200px;
+    padding: 0px 30px;
+}
+
+#logo {
+    margin-top: -7px;    
 }
 
 #page-content {
     margin-top: 55px;
     padding-top: 15px;
     background-color: #ddd;
-    height: 91vh;
+    height: 100%;
 }
 
 #wrapper {
     background-color: transparent;
     max-width: 1200px;
+}
+
+#snippet-container, #snippet-list-container {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#snippet-frame {
+    max-height: 500px;
+    border-top: solid #bbb 1px;
+    border-bottom: solid #bbb 1px;
+    box-shadow: 4px 4px 8px #444;
+}
+
+.card-block {
+    padding: 10px 20px;
 }
