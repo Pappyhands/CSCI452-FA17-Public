@@ -44,10 +44,7 @@ function updateSnippet() {
     $(row.node()).addClass('selected');
     var code = $('#snippet-frame')
         .find('code')
-        .removeClass()
-        .addClass('language-' + snippet.language.toLowerCase()) // not sure if this works for all languages
         .text(snippet.code);
-    Prism.highlightElement(code.get(0));
 }
 
 function updateView() {
