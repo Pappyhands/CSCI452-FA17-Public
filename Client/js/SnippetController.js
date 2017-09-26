@@ -6,11 +6,13 @@ const URL = baseUrl + 'Server/php/snippets.php';
 
 $(document).ready(function() {
     window.snippetsTable = $('#snippets-table').DataTable({
-        'columnDefs': [{
-            'targets': [ 0 ],
-            'visible': false,
-            'searchable': false,
-            }],
+        'columnDefs': [
+            {
+                'targets': [0],
+                'visible': false,
+                'searchable': false,
+            }
+        ],
     });
     
     $('#snippets-table tbody').on( 'click', 'tr', function () {
@@ -26,7 +28,7 @@ function getSnippets() {
     httpGetAsync(url, function (response) {
         let formattedData = JSON.parse(/.*(\{\"status\".*$)/.exec(response)[1]);
         let snippetData = JSON.parse(formattedData['snippets']);
-        model.updateSnippetsList(snippetData);
+        model.setSnippetsList(snippetData);
         updateView();
     });
 }
@@ -40,13 +42,14 @@ function updateSnippet() {
         .find('tr.selected')
         .removeClass('selected');
     $(row.node()).addClass('selected');
-    $('#snippet-frame')
+    var code = $('#snippet-frame')
         .find('code')
         .text(snippet.code);
 }
 
 function updateView() {
     let snippets = model.getSnippets();
+    console.log(snippets);
     $.each(snippets, function(index, snippet) {
         snippetsTable.row.add([
             snippet['id'],

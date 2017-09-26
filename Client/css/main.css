@@ -29,6 +29,10 @@
     border-top: solid #bbb 1px;
     border-bottom: solid #bbb 1px;
     box-shadow: 4px 4px 8px #444;
+    background-color: #fff;
+    padding: 5px;
+
+
 }
 
 .card-block {

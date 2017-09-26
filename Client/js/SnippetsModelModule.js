@@ -22,11 +22,12 @@
         // from outside this context, but the below functions work fine in SnippetController.js
         return {
             getSnippets(){ return snippets; },
-            updateSnippetsList(newList) { snippets = newList },
+            setSnippetsList(newList) { snippets = newList },
             setSelectedSnippet(row) { selectedSnippetRow = row; },
             getSnippetRow() { return selectedSnippetRow; },
             getSelectedSnippet: fetchSelectedSnippet,
         };
+        
     }
     
     try {
