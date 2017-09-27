@@ -9,7 +9,7 @@
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />	    <!-- Bootstrap -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" type="text/css" />
-		<link rel="stylesheet" href="css/main.css" type="text/css" />
+		<link rel="stylesheet" href="/Client/css/main.css" type="text/css" />
 	</head>
 	<body>
 		<div class="container-fluid">
@@ -98,9 +98,9 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 		<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 		<!---->
-		<script src="js/SnippetsModelModule.js"></script>
+		<script src="/Client/js/SnippetsModelModule.js"></script>
 		<!-- controller js -->
-		<script src="js/SnippetController.js"></script>
+		<script src="/Client/js/SnippetController.js"></script>
 		<!---->
 	</body>
 </html>
