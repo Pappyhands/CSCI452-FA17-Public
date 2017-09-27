@@ -1,8 +1,6 @@
 /* global $ model snippetsTable */
 
-const getUrl = window.location;
-const baseUrl = getUrl.protocol + '//' + getUrl.host + '/';
-const URL = baseUrl + 'Server/php/snippets.php';
+const URL = window.location.origin;
 
 $(document).ready(function() {
     window.snippetsTable = $('#snippets-table').DataTable({
@@ -24,9 +22,9 @@ $(document).ready(function() {
 }); 
 
 function getSnippets() {
-    let url = URL + '?cmd=list';
+    let url = URL + '/api/snippets?cmd=list';
     httpGetAsync(url, function (response) {
-        let formattedData = JSON.parse(/.*(\{\"status\".*$)/.exec(response)[1]);
+        let formattedData = JSON.parse(response);
         let snippetData = JSON.parse(formattedData['snippets']);
         model.setSnippetsList(snippetData);
         updateView();
