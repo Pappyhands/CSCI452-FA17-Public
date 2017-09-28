@@ -1,0 +1,22 @@
+1 go to hosted root URL
+    you should see a welcome message in a frame on the left, and a table of snippets on the right
+2 Reduce the width of the window below 1200 px
+    you should see the frame with the welcome message move on top of the table of snippets
+    The welcome message frame should take up about 66% of the width of the grey box bounding the page content, centered in this box
+3 Reduce the width of the window below 768 px
+    The welcome message frame should take up the whole width of the grey bounding box (save for a little padding on either side of the frame)
+4 Click on the CREATOR label at the top of the column
+    the rows should be reordered by the alphabetical order of the creator
+    Click on the CREATOR label again
+        the order of the rows should be reversed
+    repeat step 4 for each column's label.  The order should be alphabetical by that column, and clicking again should reverse that order
+5 Type into the form field labeled Search:
+    The rows should be filtered out if none of the cells in the row contain the search string
+6 Click on the creator name of the first row on the table.
+    The whole row should be highlighted
+    The welcome message should be replaced in its frame by a Hello world application in Java
+    Repeat for the creator cell in each row. The rows to which each cell belongs should become highlighted and the code frame should show the following snippets:
+        a CREATE TABLE sql function call
+        a html div tag with id="custom"
+        the php script for establishing a database connection
+    Repeat step 6 for each cell the description column and language column.  Clicking on each cell should highlight its row and show its snippet in the frame.

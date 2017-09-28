@@ -30,49 +30,13 @@
 	    <div id="wrapper" class="container-fluid">
     		<div id="page-content" class="container-fluid">
     			<div class="row justify-content-center">
-    				<div id="snippet-container" class="col-8 col-xl-6">
+    				<div id="snippet-container" class="col-12 col-md-8 col-xl-6">
     					<pre id="snippet-frame">
-<code>(function SnippetsModelModule(global) {
-  function SnippetsModel() {
-    var snippets = {};
-    function updateSnippetsList(newList) {
-      snippets = newList;
-    }
-    return {
-      getSnippets(){ return snippets; },
-      updateSnippetsList,
-    };
-  }
-    
-  function Filters() {
-    var orderBy = '';
-    var filterBy = {};
-    
-    function defaultOrdering() { orderBy = ''; }
-    function defaultFilters() { filterBy = {}; }
-    function addFilter(property, value) { filterBy[property] = value; }
-    function removeFilter(property) { delete filterBy[property]; }
-    function order(property) { orderBy = property; }
-        
-    return {
-      getOrder() { return orderBy; },
-      getFilters() { return filterBy; },
-      defaultOrdering,
-      defaultFilters,
-      addFilter,
-      removeFilter,
-      setOrder: order,
-    };
-  }
-    
-  try {
-    global.model = new SnippetsModel();
-    global.filters = new Filters();
-  } catch (ex) {
-    console.error('Model failed to initialize:');
-    console.trace();
-  }
-})(window);</code>
+<code>/* 
+	Welcome to SnippetGood
+	Click on a row on the snippet table to see the snippet code.
+	Have Fun!
+*/</code>
 						</pre>	
     				</div>
         		   	<div id="snippet-list-container" class="col-12 col-xl-6">
