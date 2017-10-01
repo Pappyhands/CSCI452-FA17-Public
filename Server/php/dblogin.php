@@ -5,11 +5,14 @@
     $db_database = 'SnippetGoodDatabase';
     $db_port = 3306;
     
-    // Create connection
-    $conn = new mysqli($db_hostname, $db_username, $db_password, $db_database, $db_port);
+    function dbConnection(){
+        // Create connection
+        $conn = new mysqli($db_hostname, $db_username, $db_password, $db_database, $db_port);
     
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        return $conn;
     }
 ?>
