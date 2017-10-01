@@ -8,7 +8,7 @@ This course places teams of students in an agile development environment where t
 ## Release 1 - Viewing Snippets (VS)
 - [x] **VS1 -** As an unauthenticated or authenticated user, I want to be able to view a list of snippet summaries that contain the creator, language, and snippet description so that I can use them when I am writing code.
 - [x] **VS2 -** As an unauthenticated or authenticated user, I want to be able to filter or sort a list of snippets by creator, language, or description.
-- [ ] **VS3 -** As an unauthenticated or authenticated user, I want to be able to select a snippet in the list and view the code associated with the snippet.
+- [x] **VS3 -** As an unauthenticated or authenticated user, I want to be able to select a snippet in the list and view the code associated with the snippet.
 
 ## Release 2 - User Accounts (UA)
 - [ ] **UA1 -** As an unauthenticated or authenticated user, I want to be able to create a new user account.
