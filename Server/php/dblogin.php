@@ -1,11 +1,10 @@
 <?php
-    $db_hostname = getenv('IP');
-    $db_username = getenv('C9_USER');
-    $db_password = '';
-    $db_database = 'SnippetGoodDatabase';
-    $db_port = 3306;
-    
     function dbConnection(){
+        $db_hostname = getenv('IP');
+        $db_username = getenv('C9_USER');
+        $db_password = '';
+        $db_database = 'SnippetGoodDatabase';
+        $db_port = 3306;
         // Create connection
         $conn = new mysqli($db_hostname, $db_username, $db_password, $db_database, $db_port);
     
