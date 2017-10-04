@@ -1,6 +1,6 @@
 USE SnippetGoodDatabase;
 
-INSERT INTO User_Data(Username, Passwrd) VALUES 
+INSERT INTO User_Data(Username, Password) VALUES 
 ("Aaron Smith","M4R10"),
 ("WizardProfessor", "SchoolRocks123"),
 ("Richard Dude","wassup");
