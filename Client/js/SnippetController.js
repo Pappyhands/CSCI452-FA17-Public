@@ -1,7 +1,9 @@
-/* global $ model snippetsTable */
+/* global $ SnippetsModel snippetsTable */
 
-const URL = window.location.origin;
-
+const getUrl = window.location;
+const baseUrl = getUrl.protocol + '//' + getUrl.host + '/';
+const SnippetsUrl = baseUrl + 'Server/php/snippets.php';
+const model = new SnippetsModel();
 $(document).ready(function() {
     window.snippetsTable = $('#snippets-table').DataTable({
         'columnDefs': [
@@ -22,7 +24,7 @@ $(document).ready(function() {
 }); 
 
 function getSnippets() {
-    let url = URL + '/api/snippets?cmd=list';
+    let url = SnippetsUrl + '?cmd=list';
     httpGetAsync(url, function (response) {
         let formattedData = JSON.parse(response);
         let snippetData = JSON.parse(formattedData['snippets']);
