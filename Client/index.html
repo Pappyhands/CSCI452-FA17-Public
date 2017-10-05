@@ -21,23 +21,43 @@
 		    		</a>
 	    		   	<div class="collapse navbar-collapse justify-content-end">
 	    		   	    <div class="navbar-nav">
-					    	<a class="nav-item nav-link active" href="#">Login</a>
-						</div>    		   		
-	    		   	</div>	
+										<!-- Register Account -->
+										<button class="btn btn-primary btn-lg" onclick="document.getElementById('registeruser').style.display='block'">Register</button>
+										<!-- Modal -->
+											<div id="registeruser" class="modal">
+											  <span onclick="document.getElementById('registeruser').style.display='none'"class="close" title="Close">&times;</span>
+
+											  <!-- Modal Content -->
+												<form class="modal-content" action="../Server/php/create_user.php">
+											  	 <div class="container" style="background-color:#f1f1f1">
+														<h3>Register a new user account</h3>
+											     	<label><b>Username</b></label><br>
+											     	<input type="text" placeholder="Enter Username" name="user" required><br>
+
+														<label><b>Password</b></label><br>
+											     	<input type="password" placeholder="Enter Password" name="password" required><br>
+											     		<button type="button" onclick="document.getElementById('registeruser').style.display='none'" class="cancelbtn">Cancel</button>
+															<button type="submit">Submit</button>
+											   	 	</div>
+											 </form>
+											</div>
+										</div>
+									</div>
+	    		   	</div>
 	    		</div>
-    		</nav>	
+    		</nav>
 		</div>
 	    <div id="wrapper" class="container-fluid">
     		<div id="page-content" class="container-fluid">
     			<div class="row justify-content-center">
     				<div id="snippet-container" class="col-12 col-md-8 col-xl-6">
     					<pre id="snippet-frame">
-<code>/* 
+<code>/*
 	Welcome to SnippetGood
 	Click on a row on the snippet table to see the snippet code.
 	Have Fun!
 */</code>
-						</pre>	
+						</pre>
     				</div>
         		   	<div id="snippet-list-container" class="col-12 col-xl-6">
 	        		   	<table id="snippets-table" class="display" cellspacing="0" width="100%">
@@ -56,7 +76,7 @@
         		   </div>
     		   </div>
     		</div>
-    	</div>
+
 		<!-- jquery -->
 		<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
