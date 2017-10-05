@@ -3,6 +3,7 @@
 const getUrl = window.location;
 const baseUrl = getUrl.protocol + '//' + getUrl.host + '/';
 const SnippetsUrl = baseUrl + 'Server/php/snippets.php';
+const registerUrl = baseUrl + 'Server/php/create_user.php';
 const model = new SnippetsModel();
 $(document).ready(function() {
     window.snippetsTable = $('#snippets-table').DataTable({
@@ -72,4 +73,14 @@ function httpGetAsync(theUrl, callback) {
     };
     xmlHttp.open("GET", theUrl, true);
     xmlHttp.send(null);
+}
+
+function registerAsync(){
+    $.post(registerUrl, {
+        user: $('input[name="name"]').value(),
+        password: $('input[name="password"]').value() 
+    }).done(function( data ) {
+        alert( "Data Loaded: " + data );
+        document.getElementById('registeruser').style.display='none';
+    });
 }
