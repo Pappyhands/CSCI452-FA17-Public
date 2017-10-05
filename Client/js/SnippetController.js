@@ -22,9 +22,9 @@ $(document).ready(function() {
     });
     
     getSnippets();
+
     $('form.modal-content').submit(function(e) {
-        console.log('SUBMIT');
-     registerAsync(e);   
+        registerAsync(e);   
     });
 }); 
 
@@ -81,11 +81,15 @@ function httpGetAsync(theUrl, callback) {
 
 function registerAsync(e){
     e.preventDefault();
+    var name = $('input[name="name"]');
+    var password = $('input[name="password"]')
     $.post(registerUrl, {
-        name: $('input[name="name"]').val(),
-        password: $('input[name="password"]').val() 
+        name: name.val(),
+        password: password.val() 
     }).done(function( data ) {
         alert( "Data Loaded: " + data );
+        name.val('');
+        password.val('');
         document.getElementById('registeruser').style.display='none';
     });
 }
