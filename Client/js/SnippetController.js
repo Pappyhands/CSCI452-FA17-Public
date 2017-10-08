@@ -22,6 +22,10 @@ $(document).ready(function() {
     });
     
     getSnippets();
+
+    $('form.modal-content').submit(function(e) {
+        registerAsync(e);   
+    });
 }); 
 
 function getSnippets() {
@@ -75,12 +79,17 @@ function httpGetAsync(theUrl, callback) {
     xmlHttp.send(null);
 }
 
-function registerAsync(){
+function registerAsync(e){
+    e.preventDefault();
+    var name = $('input[name="name"]');
+    var password = $('input[name="password"]')
     $.post(registerUrl, {
-        user: $('input[name="name"]').value(),
-        password: $('input[name="password"]').value() 
+        name: name.val(),
+        password: password.val() 
     }).done(function( data ) {
         alert( "Data Loaded: " + data );
+        name.val('');
+        password.val('');
         document.getElementById('registeruser').style.display='none';
     });
 }
