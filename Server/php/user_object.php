@@ -3,10 +3,14 @@
         
         private $user_name = "defaultname";
         private $user_password = "defaultpassword";
+        private $security_answer1 = "defaultanswer1";
+        private $security_answer2 = "defaultanswer2";
         
-        public function __construct($name, $pass) {
-            $this->user_name = $name;
-            $this->user_password = $pass;
+        public function __construct($name, $pass, $answer1, $answer2) {
+            $this->user_name = setName($name);
+            $this->user_password = setPassword($pass);
+            $this->security_answer1 = setSecurityAnswer1($answer1);
+            $this->security_answer2 = setSecurityAnswer2($answer2);
         }
         
         public function setName($name) {
@@ -18,16 +22,32 @@
         }
         
         public function setPassword($password) {
-            $this->user_password = $password;
+            $this->user_password = password_hash($password, PASSWORD_DEFAULT);
         }
         
         public function getPassword() {
             return $this->user_password;
         }
         
-        // // Update user table in the database
-        // public function updateUserObject() {
+        public function setSecurityAnswer1($security_answer) {
+            $this->security_answer1 = password_hash($security_answer, PASSWORD_DEFAULT);
+        }
+        
+        public function getSecurityAnswer1() {
+            return $this->security_answer1;
+        }
+        
+        public function setSecurityAnswer2($security_answer) {
+            $this->security_answer2 = password_hash($security_answer, PASSWORD_DEFAULT);
+        }
+        
+        public function getSecurityAnswer2() {
+            return $this->security_answer2;
+        }
+        
+        // Update user table in the database
+        public function updateUserObject() {
             
-        // }
+        }
     }
 ?>
