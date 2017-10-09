@@ -5,7 +5,10 @@ const baseUrl = getUrl.protocol + '//' + getUrl.host + '/';
 const SnippetsUrl = baseUrl + 'Server/php/snippets.php';
 const registerUrl = baseUrl + 'Server/php/create_user.php';
 const model = new SnippetsModel();
-$(document).ready(function() {
+
+//
+$(document).one('ready', function() {
+    // initialize datatable
     window.snippetsTable = $('#snippets-table').DataTable({
         'columnDefs': [
             {
@@ -16,29 +19,37 @@ $(document).ready(function() {
         ],
     });
     
+    // datable row click event listener
     $('#snippets-table tbody').on( 'click', 'tr', function () {
         model.setSelectedSnippet(snippetsTable.row(this));
         updateSnippet();
     });
     
-    getSnippets();
-
-    $('form.modal-content').submit(function(e) {
-        registerAsync(e);   
+    
+    // listen for click on submit buttons in modals
+    $('#register-submit').on('click', function(e){
+       $('form#registerUserForm').submit(); 
     });
+    $('#recover-submit').on('click', function(e){
+        $('form#recoverPasswordForm').submit();
+    })
+    
+    //listen for form submit events
+    $('form#registerUserForm').submit(function(e) {
+        registerUser(e);   
+    });
+    
+    $('form#recoverPasswordForm').submit(function(e) {
+        recoverPassword(e); 
+    });
+    
+    // make initial ajax calls
+    getSnippets();
 }); 
 
-function getSnippets() {
-    let url = SnippetsUrl + '?cmd=list';
-    httpGetAsync(url, function (response) {
-        let formattedData = JSON.parse(response);
-        let snippetData = JSON.parse(formattedData['snippets']);
-        model.setSnippetsList(snippetData);
-        updateView();
-    });
-}
 
-// VIEW 
+
+// VIEW UI Handler
 
 function updateSnippet() {
     var snippet = model.getSelectedSnippet();
@@ -67,29 +78,44 @@ function updateView() {
 }
 
 
-// make an arbitrary ajax call to the server
-function httpGetAsync(theUrl, callback) {
-    let xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function() { 
-        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-            callback(xmlHttp.responseText);
-        }
-    };
-    xmlHttp.open("GET", theUrl, true);
-    xmlHttp.send(null);
+function getSnippets() {
+    let url = SnippetsUrl + '?cmd=list';
+    $.get(url, function (response) {
+        let snippetData = JSON.parse(response['snippets']);
+        model.setSnippetsList(snippetData);
+        updateView();
+    });
 }
 
-function registerAsync(e){
+// user and password submit
+function registerUser(e){
     e.preventDefault();
-    var name = $('input[name="name"]');
-    var password = $('input[name="password"]')
+    var name = $(e.target).find('input[name="name"]'); 
+    var password = $(e.target).find('input[name="password"]');
     $.post(registerUrl, {
         name: name.val(),
-        password: password.val() 
+        password: password.val() ,
     }).done(function( data ) {
-        alert( "Data Loaded: " + data );
         name.val('');
         password.val('');
-        document.getElementById('registeruser').style.display='none';
+        $('#registerModal').modal('hide')
+        $('#alert').alert();
+    });
+}
+
+
+// submits Forgot your password form
+function recoverPassword(e){
+    e.preventDefault();
+    var question1 = $(e.target).find('input[name="question-1"]'); 
+    var question2 = $(e.target).find('input[name="question-2"]');
+    $.post(registerUrl, {
+        question1: question1.val(),
+        question2: question2.val() ,
+    }).done(function( data ) {
+        name.val('');
+        password.val('');
+        $('#registerModal').modal('hide')
+        $('#alert').alert();
     });
 }

@@ -17,6 +17,7 @@
 #wrapper {
     background-color: transparent;
     max-width: 1200px;
+    margin-top: 60px;
 }
 
 #snippet-container, #snippet-list-container {
@@ -33,11 +34,21 @@
     padding: 5px;
 }
 
-.container
-{
-
+.register-container {
+    padding: 10px 0px;
+}
+.register-container br {
+    line-height: 40px;
 }
 
 .card-block {
     padding: 10px 20px;
+}
+
+.modal-content {
+    border: none;
+}
+
+.modal-content input {
+    margin-left: 10px;
 }
