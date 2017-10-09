@@ -6,8 +6,9 @@ const SnippetsUrl = baseUrl + 'Server/php/snippets.php';
 const registerUrl = baseUrl + 'Server/php/create_user.php';
 const model = new SnippetsModel();
 
-//
-$(document).one('ready', function() {
+// initialize javascript
+$(document).ready(function() {
+    
     // initialize datatable
     window.snippetsTable = $('#snippets-table').DataTable({
         'columnDefs': [
@@ -77,7 +78,6 @@ function updateView() {
     snippetsTable.draw();
 }
 
-
 function getSnippets() {
     let url = SnippetsUrl + '?cmd=list';
     $.get(url, function (response) {
@@ -87,8 +87,20 @@ function getSnippets() {
     });
 }
 
+// displays a user alert.  accepted types are primary, secondary, success, warning, danger, info, light, dark
+function userAlert(type, text) {
+    var alertMarkup = '<div id="alert" class="alert alert-dismissible fade show col-12" role="alert">\n' +
+  				      '  <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+    			      '    <span aria-hidden="true">&times;</span>\n' +
+  				      '  </button>\n' +
+				      '</div>';
+	var result = $(alertMarkup).addClass('alert-' + type).append(text);
+    $('#user-alert-container').empty().append(result)
+}
+
 // user and password submit
 function registerUser(e){
+    $('#alert').alert();
     e.preventDefault();
     var name = $(e.target).find('input[name="name"]'); 
     var password = $(e.target).find('input[name="password"]');
@@ -98,13 +110,13 @@ function registerUser(e){
     }).done(function( data ) {
         name.val('');
         password.val('');
+        userAlert('success', 'User successfully registered.  Welcome!');
         $('#registerModal').modal('hide')
-        $('#alert').alert();
     });
 }
 
 
-// submits Forgot your password form
+// 
 function recoverPassword(e){
     e.preventDefault();
     var question1 = $(e.target).find('input[name="question-1"]'); 
