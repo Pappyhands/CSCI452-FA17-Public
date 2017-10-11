@@ -1,0 +1,5 @@
+handle user insert command via a select to cover user already existing potentially.
+
+php - create controller framework, create new cmds for _snippets.php, all they should be doing is calling function and getting a response back.
+
+create user function should test pass requirements, and check if user is already created. then hash password.

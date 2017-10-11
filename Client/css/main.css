@@ -1,10 +1,29 @@
+/*
+    Nav bar styles
+*/
+
 #nav-content {
     max-width: 1200px;
     padding: 0px 30px;
 }
 
+#nav-content .navbar-nav button {
+    margin-left: 10px;
+    box-shadow: 2px 2px 6px #000;
+}
+
 #logo {
     margin-top: -7px;
+}
+
+/*
+    Page content styles
+*/
+
+#page-content-wrapper {
+    background-color: transparent;
+    max-width: 1200px;
+    margin-top: 59px;
 }
 
 #page-content {
@@ -14,9 +33,9 @@
     height: 100%;
 }
 
-#wrapper {
-    background-color: transparent;
-    max-width: 1200px;
+#alert {
+    border-radius: 0px;
+    margin-top: -15px;
 }
 
 #snippet-container, #snippet-list-container {
@@ -31,13 +50,4 @@
     box-shadow: 4px 4px 8px #444;
     background-color: #fff;
     padding: 5px;
-}
-
-.container
-{
-
-}
-
-.card-block {
-    padding: 10px 20px;
 }
