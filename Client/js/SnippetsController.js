@@ -3,7 +3,7 @@
 const getUrl = window.location;
 const baseUrl = getUrl.protocol + '//' + getUrl.host + '/';
 const SnippetsUrl = baseUrl + 'Server/php/snippets.php';
-const registerUrl = baseUrl + 'Server/php/create_user.php';
+const registerUrl = baseUrl + 'Server/php/create_user.php'; //remove, file not being used anymore.
 const model = new SnippetsModel();
 
 // initialize javascript
@@ -130,6 +130,7 @@ function registerUser(e){
 
 // function to recover password based on two security questions
 function recoverPassword(e){
+    //e.target points to the DOM where input name is equal to the name of the modal form (ie. '#recoverPassword' form)
     
     var securityAnswer1 = $(e.target).find('input[name="securityAnswer1"]'); 
     var securityAnswer2 = $(e.target).find('input[name="securityAnswer2"]');
@@ -141,20 +142,26 @@ function recoverPassword(e){
         e.preventDefault();
         let url = SnippetsUrl + '?cmd=update_user';
         $.post(url, {
-        securityAnswer1: securityAnswer1.val(),
-        securityAnswer2: securityAnswer2.val() ,
-    }).done(function( data ) {
-        securityAnswer1.val('');
-        securityAnswer2.val('');
-        $('#recoverPasswordModal').modal('hide')
-        if(data.status === "OK") {
-            //success msg for userAlert
-            userAlert('success', 'User successfully reset.');
-        } else {
-            //fail msg for userAlert
-            userAlert('danger', data.errmsg);
-        }
-    });    
+            securityAnswer1: securityAnswer1.val(),
+            securityAnswer2: securityAnswer2.val() ,
+            username: username.val() ,
+            newPassword: newPassword.val() ,
+            confirmNewPassword: confirmNewPassword.val() ,
+        }).done(function( data ) { //done is not being called and the new passwords
+            securityAnswer1.val('');
+            securityAnswer2.val('');
+            username.val('');
+            newPassword.val('');
+            confirmNewPassword.val('');
+            $('#recoverPasswordModal').modal('hide')
+            if(data.status === 'OK') {
+                //success msg for userAlert
+                userAlert('success', 'User successfully reset.');
+            } else {
+                //fail msg for userAlert
+                userAlert('danger', data.errmsg);
+            }
+        });   // add '.fail' call back for 500 errors 
     } else {
         return true;
     }
