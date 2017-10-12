@@ -7,10 +7,10 @@
         private $security_answer2 = "defaultanswer2";
         
         public function __construct($name, $pass, $answer1, $answer2) {
-            $this->user_name = setName($name);
-            $this->user_password = setPassword($pass);
-            $this->security_answer1 = setSecurityAnswer1($answer1);
-            $this->security_answer2 = setSecurityAnswer2($answer2);
+            $this->setName($name);
+            $this->setPassword($pass);
+            $this->setSecurityAnswer1($answer1);
+            $this->setSecurityAnswer2($answer2);
         }
         
         public function setName($name) {
