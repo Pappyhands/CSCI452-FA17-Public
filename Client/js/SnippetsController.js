@@ -146,7 +146,7 @@ function recoverPassword(e){
     }).done(function( data ) {
         securityAnswer1.val('');
         securityAnswer2.val('');
-        $('#registerModal').modal('hide')
+        $('#recoverPasswordModal').modal('hide')
         if(data.status === "OK") {
             //success msg for userAlert
             userAlert('success', 'User successfully reset.');
