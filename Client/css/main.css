@@ -16,6 +16,10 @@
     margin-top: -7px;
 }
 
+.navbar-brand {
+    text-shadow: 2px 2px 6px #000;
+}
+
 /*
     Page content styles
 */
@@ -50,4 +54,23 @@
     box-shadow: 4px 4px 8px #444;
     background-color: #fff;
     padding: 5px;
+}
+
+/*
+    Modal styles
+*/
+
+.modal h6 {
+    font-style: italic;
+    font-weight: 100;
+    font-size: 14px;
+    margin: -5px 0px 10px 5px;
+}
+
+.modal form label {
+    margin-bottom: 2px;    
+}
+
+.modal form input {
+    margin-bottom: 5px;
 }
