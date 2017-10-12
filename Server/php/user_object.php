@@ -44,10 +44,5 @@
         public function getSecurityAnswer2() {
             return $this->security_answer2;
         }
-        
-        // Update user table in the database
-        public function updateUserObject() {
-            
-        }
     }
 ?>
