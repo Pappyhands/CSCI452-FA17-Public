@@ -1,10 +1,10 @@
 USE SnippetGoodTestDatabase;
 
 
-INSERT INTO User_Data(Username, Passwrd) VALUES 
-("Aaron Smith","M4R10"),
-("WizardProfessor", "SchoolRocks123"),
-("Richard Dude","wassup");
+INSERT INTO User_Data(Username, Password, SecurityAnswer1, SecurityAnswer2) VALUES 
+("Aaron Smith", "M4R10", "Smith", "Spot"),
+("WizardProfessor", "SchoolRocks123", "Malkovich", "Barack Obama"),
+("Richard Dude", "wassup", "YouAndWhatArmy", "IRequireAShrubbery");
 
 INSERT INTO Language_Data(LanguageName) VALUES
 ('Java'),
