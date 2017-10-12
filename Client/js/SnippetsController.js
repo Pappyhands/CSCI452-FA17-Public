@@ -29,10 +29,11 @@ $(document).ready(function() {
     
     // listen for click on submit buttons in modals
     $('#register-submit').on('click', function(e){
-       $('form#registerUserForm').submit(); 
+       $('#registerUserHidden').click(); 
     });
+    
     $('#recover-submit').on('click', function(e){
-        $('form#recoverPasswordForm').submit();
+        $('#recoverPasswordHidden').click();
     })
     
     //listen for form submit events
@@ -81,6 +82,7 @@ function updateView() {
 function getSnippets() {
     let url = SnippetsUrl + '?cmd=list';
     $.get(url, function (response) {
+        console.log(response);
         let snippetData = JSON.parse(response['snippets']);
         model.setSnippetsList(snippetData);
         updateView();
@@ -101,10 +103,13 @@ function userAlert(type, text) {
 // user and password submit
 function registerUser(e){
     $('#alert').alert();
-    e.preventDefault();
+    
     var name = $(e.target).find('input[name="name"]'); 
     var password = $(e.target).find('input[name="password"]');
-    $.post(registerUrl, {
+    if(name.get(0).checkValidity() && password.get(0).checkValidity()){
+        e.preventDefault();
+        let url = SnippetsUrl + '?cmd=create_user';
+        $.post(url, {
         name: name.val(),
         password: password.val() ,
     }).done(function( data ) {
@@ -113,21 +118,42 @@ function registerUser(e){
         userAlert('success', 'User successfully registered.  Welcome!');
         $('#registerModal').modal('hide')
     });
+    } else {
+        return true;
+    }
+    
 }
 
 
-// 
+// function to recover password based on two security questions
 function recoverPassword(e){
-    e.preventDefault();
-    var question1 = $(e.target).find('input[name="question-1"]'); 
-    var question2 = $(e.target).find('input[name="question-2"]');
-    $.post(registerUrl, {
-        question1: question1.val(),
-        question2: question2.val() ,
+    
+    var securityAnswer1 = $(e.target).find('input[name="securityAnswer1"]'); 
+    var securityAnswer2 = $(e.target).find('input[name="securityAnswer2"]');
+    var username = $(e.target).find('input[name="name"]'); 
+    var newPassword = $(e.target).find('input[name="newPassword"]'); 
+    var confirmNewPassword = $(e.target).find('input[name="verifyNewPassword"]'); 
+    
+    if(securityAnswer1.get(0).checkValidity() && securityAnswer2.get(0).checkValidity() && username.get(0).checkValidity() && newPassword.get(0).checkValidity() && confirmNewPassword.get(0).checkValidity()){
+        e.preventDefault();
+        let url = SnippetsUrl + '?cmd=update_user';
+        $.post(url, {
+        securityAnswer1: securityAnswer1.val(),
+        securityAnswer2: securityAnswer2.val() ,
     }).done(function( data ) {
-        name.val('');
-        password.val('');
+        securityAnswer1.val('');
+        securityAnswer2.val('');
         $('#registerModal').modal('hide')
-        $('#alert').alert();
-    });
+        if(data.status === "OK") {
+            //success msg for userAlert
+            userAlert('success', 'User successfully reset.');
+        } else {
+            //fail msg for userAlert
+            userAlert('danger', data.errmsg);
+        }
+    });    
+    } else {
+        return true;
+    }
+    
 }
