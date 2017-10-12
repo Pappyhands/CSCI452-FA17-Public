@@ -66,7 +66,7 @@
                     $user = $findUserResponse["user"];
                 } else {
                     $response["status"] = "ERROR";
-                    $response["errmsg"] = "Incorrect information entered."
+                    $response["errmsg"] = "Incorrect information entered.";
                 }
                 // Check validity of input fields before running functionality.
                 if (verifyResetPasswordInputs($user, $_POST[newPassword], $_POST[verifyNewPassword], $_POST[securityAnswer1], $_POST[securityAnswer2])) {
