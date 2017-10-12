@@ -106,6 +106,9 @@ function registerUser(e){
     
     var name = $(e.target).find('input[name="name"]'); 
     var password = $(e.target).find('input[name="password"]');
+    var securityAnswer1 = $(e.target).find('input[name="securityAnswer1"]'); 
+    var securityAnswer2 = $(e.target).find('input[name="securityAnswer2"]');
+   
     if(name.get(0).checkValidity() && password.get(0).checkValidity()){
         e.preventDefault();
         let url = SnippetsUrl + '?cmd=create_user';
