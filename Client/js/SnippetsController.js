@@ -109,7 +109,7 @@ function registerUser(e){
     var securityAnswer1 = $(e.target).find('input[name="securityAnswer1"]'); 
     var securityAnswer2 = $(e.target).find('input[name="securityAnswer2"]');
    
-    if(name.get(0).checkValidity() && password.get(0).checkValidity()){
+    if(name.get(0).checkValidity() && password.get(0).checkValidity() && securityAnswer1.get(0).checkValidity() && securityAnswer2.get(0).checkValidity()){
         e.preventDefault();
         let url = SnippetsUrl + '?cmd=create_user';
         $.post(url, {
