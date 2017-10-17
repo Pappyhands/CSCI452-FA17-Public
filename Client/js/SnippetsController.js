@@ -2,8 +2,7 @@
 
 const getUrl = window.location;
 const baseUrl = getUrl.protocol + '//' + getUrl.host + '/';
-const SnippetsUrl = baseUrl + 'Server/php/snippets.php';
-const registerUrl = baseUrl + 'Server/php/create_user.php'; //remove, file not being used anymore.
+const SnippetsUrl = baseUrl + 'Server/php/commands.php';
 const model = new SnippetsModel();
 
 // initialize javascript
@@ -131,12 +130,12 @@ function registerUser(e){
 // function to recover password based on two security questions
 function recoverPassword(e){
     //e.target points to the DOM where input name is equal to the name of the modal form (ie. '#recoverPassword' form)
-    
-    var securityAnswer1 = $(e.target).find('input[name="securityAnswer1"]'); 
-    var securityAnswer2 = $(e.target).find('input[name="securityAnswer2"]');
-    var username = $(e.target).find('input[name="name"]'); 
-    var newPassword = $(e.target).find('input[name="newPassword"]'); 
-    var confirmNewPassword = $(e.target).find('input[name="verifyNewPassword"]'); 
+    var target = $(e.target),
+        securityAnswer1 =    target.find('input[name="securityAnswer1"]'), 
+        securityAnswer2 =    target.find('input[name="securityAnswer2"]'),
+        username =           target.find('input[name="name"]'),
+        newPassword =        target.find('input[name="newPassword"]'),
+        confirmNewPassword = target.find('input[name="verifyNewPassword"]'); 
     
     if(securityAnswer1.get(0).checkValidity() && securityAnswer2.get(0).checkValidity() && username.get(0).checkValidity() && newPassword.get(0).checkValidity() && confirmNewPassword.get(0).checkValidity()){
         e.preventDefault();
@@ -161,6 +160,9 @@ function recoverPassword(e){
                 //fail msg for userAlert
                 userAlert('danger', data.errmsg);
             }
+        }).fail(function(response) {
+            console.log(response);
+            userAlert('danger', 'Snippet Bad! The server monkeys left a wrench in the code.');
         });   // add '.fail' call back for 500 errors 
     } else {
         return true;
