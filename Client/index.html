@@ -17,13 +17,15 @@
 <!-- Nav bar -->
 	<div class="container-fluid">
     	<nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-sm">
-    		<div id="nav-content" class="container-fluid"style="max-width:1200px;margin:auto;width:100%;">
+    		<div class="container-fluid" id="nav-content" style="max-width:1200px;margin:auto;width:100%;">
 	    		<a class="navbar-brand" href="#">
 	    			<img id="logo" src="/Client/assets/dabs.png" width="40" height="40" class="d-inline-block align-top" alt=""/>
 	    			SnippetGood
 	    		</a>
     		   	<div class="collapse navbar-collapse justify-content-end">
 					<div class="navbar-nav">
+						<div id="login-indicator" style="color:#ffffff;padding-top:7px;">this is a login div</div>
+						<button class="btn btn-info" data-toggle="modal" data-target="#loginModal">Log in</button>
 						<button class="btn btn-info" data-toggle="modal" data-target="#registerModal">Register</button>
 						<button class="btn btn-light" data-toggle="modal" data-target="#recoverPasswordModal">Forgot Password</button>
 					</div>
@@ -88,7 +90,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form id="registerUserForm" action="../Server/php/create_user.php">
+					<form id="registerUserForm">
 						<label><b>Username</b></label>
 						<br/>
 						<input type="text" placeholder="Enter Username" name="name" required>
@@ -128,7 +130,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form id="recoverPasswordForm" action="../Server/php/create_user.php">
+					<form id="recoverPasswordForm">
 						<label><b>Username</b></label>
 						<br/>
 						<input type="text" placeholder="Username" name="name" required>
@@ -165,7 +167,36 @@
 			</div>
 		</div>
 	</div>
-
+	<!-- User Login Modal -->
+	<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Create an account</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form id="userLoginForm">
+						<label><b>Username</b></label>
+						<br/>
+						<input type="text" placeholder="Enter Username" name="name" required>
+						<br/>
+						<label><b>Password</b></label>
+						<br/>
+						<input type="password" placeholder="Enter Password" name="password" required>
+						<br/>
+						<input type="submit" id="registerUserHidden" style="display:none;">
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-primary" id="register-submit">Log in</button>
+  				</div>
+			</div>
+		</div>
+	</div>
 	<!--
 		Scripts from top to bottom:
 			JQuery 3.2.1 (latest version, upgraded from the version Mark started us with)
