@@ -46,6 +46,7 @@ $(document).ready(function() {
     
     // make initial ajax calls
     getSnippets();
+    
 }); 
 
 
@@ -113,7 +114,9 @@ function registerUser(e){
         let url = SnippetsUrl + '?cmd=create_user';
         $.post(url, {
         name: name.val(),
-        password: password.val() ,
+        password: password.val(),
+        securityAnswer1: securityAnswer1.val(),
+        securityAnswer2: securityAnswer2.val(),
     }).done(function( data ) {
         name.val('');
         password.val('');
@@ -143,9 +146,9 @@ function recoverPassword(e){
         $.post(url, {
             securityAnswer1: securityAnswer1.val(),
             securityAnswer2: securityAnswer2.val() ,
-            username: username.val() ,
+            name: username.val() ,
             newPassword: newPassword.val() ,
-            confirmNewPassword: confirmNewPassword.val() ,
+            verifyNewPassword: confirmNewPassword.val(),
         }).done(function( data ) { //done is not being called and the new passwords
             securityAnswer1.val('');
             securityAnswer2.val('');
@@ -163,9 +166,9 @@ function recoverPassword(e){
         }).fail(function(response) {
             console.log(response);
             userAlert('danger', 'Snippet Bad! The server monkeys left a wrench in the code.');
+            $('#recoverPasswordModal').modal('hide')
         });   // add '.fail' call back for 500 errors 
     } else {
         return true;
     }
-    
 }

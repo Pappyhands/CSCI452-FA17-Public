@@ -7,6 +7,7 @@
 		and return the first one it finds. If the key does not exist,
 		an empty string is returned.
 	*/
+
 	function getValue($key, $default)
 	{
 		$ret = $default;

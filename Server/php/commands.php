@@ -77,7 +77,7 @@
     
     function createUser($conn, $response) {
         if (verifyCreateUserInputs($_POST[password])) {
-            $user = new UserObject($_POST[name], $_POST[password], $_POST[securityAnswer1], $_POST[securityAnswer2]);
+            $user = new UserObject($_POST[name], password_hash($_POST[password], PASSWORD_DEFAULT), password_hash($_POST[securityAnswer1], PASSWORD_DEFAULT), password_hash($_POST[securityAnswer2], PASSWORD_DEFAULT));
             $response = insertUser($conn, $response, $user);
         }
     }
@@ -148,10 +148,10 @@
         if ($resetPass != $resetPassConfirm) {
             throw new Exception("Passwords don't match.");
         }
-        if (!password_verify($user->getSecurityAnswer1(), $answer1)) {
+        if (!password_verify($answer1, $user->getSecurityAnswer1())) {
             throw new Exception("The answer to the first security question is incorrect.");
         }
-        if (!password_verify($user->getSecurityAnswer2(), $answer2)) {
+        if (!password_verify($answer2, $user->getSecurityAnswer2())) {
             throw new Exception("The answer to the second security question is incorrect.");
         }
         // preg_match matches a regular expression (regex) against a string. In this case, make sure the password is good.
@@ -194,12 +194,12 @@
     }
     
     function findUser ($conn, $username) {
-        $stmt = $conn->prepare("SELECT Username, Password, SecurityAnswer1, SecurityAnswer2 FROM User_Data WHERE Username = %s;");
+        $stmt = $conn->prepare("SELECT Username, Password, SecurityAnswer1, SecurityAnswer2 FROM User_Data WHERE Username = ?;");
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $stmt->bind_result($name, $pass, $answer1, $answer2);
         $stmt->fetch();
-        $user = new UserOject($name, $pass, $answer1, $answer2);
+        $user = new UserObject($name, $pass, $answer1, $answer2);
         $stmt->close();
         
         $response["user"] = $user;

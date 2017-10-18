@@ -22,7 +22,7 @@
         }
         
         public function setPassword($password) {
-            $this->user_password = password_hash($password, PASSWORD_DEFAULT);
+            $this->user_password = $password;
         }
         
         public function getPassword() {
@@ -30,7 +30,7 @@
         }
         
         public function setSecurityAnswer1($security_answer) {
-            $this->security_answer1 = password_hash($security_answer, PASSWORD_DEFAULT);
+            $this->security_answer1 = $security_answer;
         }
         
         public function getSecurityAnswer1() {
@@ -38,7 +38,7 @@
         }
         
         public function setSecurityAnswer2($security_answer) {
-            $this->security_answer2 = password_hash($security_answer, PASSWORD_DEFAULT);
+            $this->security_answer2 = $security_answer;
         }
         
         public function getSecurityAnswer2() {
