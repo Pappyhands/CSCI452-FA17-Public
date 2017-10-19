@@ -7,16 +7,13 @@ const model = new SnippetsModel();
 
 // initialize javascript
 $(document).ready(function() {
-    
     // initialize datatable
     window.snippetsTable = $('#snippets-table').DataTable({
-        'columnDefs': [
-            {
-                'targets': [0],
-                'visible': false,
-                'searchable': false,
-            }
-        ],
+        'columnDefs': [{
+            'targets': [0],
+            'visible': false,
+            'searchable': false,
+        }],
     });
     
     // datable row click event listener
@@ -25,34 +22,35 @@ $(document).ready(function() {
         updateSnippet();
     });
     
-    
-    // listen for click on submit buttons in modals
-    $('#register-submit').on('click', function(e){
+    // click event listeners on modal submit buttons
+    // these each trigger a click event on a hidden submit button in their respective forms
+    $('#login-submit').on('click', function(e) {
+        $('#loginUserHidden').click();
+    });
+    $('#register-submit').on('click', function(e) {
        $('#registerUserHidden').click(); 
     });
-    
-    $('#recover-submit').on('click', function(e){
+    $('#recover-submit').on('click', function(e) {
         $('#recoverPasswordHidden').click();
-    })
-    
-    //listen for form submit events
-    $('form#registerUserForm').submit(function(e) {
-        registerUser(e);   
     });
     
-    $('form#recoverPasswordForm').submit(function(e) {
+    //listen for form submit events
+    $('form#loginUserForm').on('submit', function(e) {
+        loginUser(e); 
+    });
+    $('form#registerUserForm').on('submit', function(e) {
+        registerUser(e);   
+    });
+    $('form#recoverPasswordForm').on('submit', function(e) {
         recoverPassword(e); 
     });
     
     // make initial ajax calls
     getSnippets();
-    
+    getUserSession();
 }); 
 
-
-
 // VIEW UI Handler
-
 function updateSnippet() {
     var snippet = model.getSelectedSnippet();
     var row = model.getSnippetRow();
@@ -79,16 +77,6 @@ function updateView() {
     snippetsTable.draw();
 }
 
-function getSnippets() {
-    let url = SnippetsUrl + '?cmd=list';
-    $.get(url, function (response) {
-        console.log(response);
-        let snippetData = JSON.parse(response['snippets']);
-        model.setSnippetsList(snippetData);
-        updateView();
-    });
-}
-
 // displays a user alert.  accepted types are primary, secondary, success, warning, danger, info, light, dark
 function userAlert(type, text) {
     var alertMarkup = '<div id="alert" class="alert alert-dismissible fade show col-12" role="alert">\n' +
@@ -97,38 +85,97 @@ function userAlert(type, text) {
   				      '  </button>\n' +
 				      '</div>';
 	var result = $(alertMarkup).addClass('alert-' + type).append(text);
-    $('#user-alert-container').empty().append(result)
+    $('#user-alert-container').empty().append(result);
+}
+
+// GET ajax calls
+function getSnippets() {
+    let url = SnippetsUrl + '?cmd=list';
+    $.get(url, function(response) {
+        let snippetData = JSON.parse(response['snippets']);
+        model.setSnippetsList(snippetData);
+        updateView();
+    });
+}
+
+function getUserSession() {
+    let url = SnippetsUrl + '?cmd=get_user_session';
+    $.get(url, function(response) {
+        if (response.status === 'OK') {
+            $('#login-indicator').text('Welcome, ' + response.username + '!');
+        } else {
+            $('#login-indicator').text('No User Logged in.');
+        }
+    });
 }
 
 // user and password submit
-function registerUser(e){
-    $('#alert').alert();
-    
-    var name = $(e.target).find('input[name="name"]'); 
-    var password = $(e.target).find('input[name="password"]');
-    var securityAnswer1 = $(e.target).find('input[name="securityAnswer1"]'); 
-    var securityAnswer2 = $(e.target).find('input[name="securityAnswer2"]');
-   
-    if(name.get(0).checkValidity() && password.get(0).checkValidity() && securityAnswer1.get(0).checkValidity() && securityAnswer2.get(0).checkValidity()){
+function registerUser(e) {
+    var target = $(e.target),
+        name =            target.find('input[name="name"]'), 
+        password =        target.find('input[name="password"]'),
+        securityAnswer1 = target.find('input[name="securityAnswer1"]'), 
+        securityAnswer2 = target.find('input[name="securityAnswer2"]');
+    var formValid = name.get(0).checkValidity() && 
+                    password.get(0).checkValidity() && 
+                    securityAnswer1.get(0).checkValidity() && 
+                    securityAnswer2.get(0).checkValidity();
+    if (formValid) {
         e.preventDefault();
         let url = SnippetsUrl + '?cmd=create_user';
         $.post(url, {
-        name: name.val(),
-        password: password.val(),
-        securityAnswer1: securityAnswer1.val(),
-        securityAnswer2: securityAnswer2.val(),
-    }).done(function( data ) {
-        name.val('');
-        password.val('');
-        userAlert('success', 'User successfully registered.  Welcome!');
-        $('#registerModal').modal('hide')
-    });
-    } else {
-        return true;
-    }
-    
+            name: name.val(),
+            password: password.val(),
+            securityAnswer1: securityAnswer1.val(),
+            securityAnswer2: securityAnswer2.val(),
+        }).done(function(data) {
+            if (data.status === "OK") {
+                userAlert('success', 'User successfully registered.  Welcome!');
+            } else {
+                userAlert('danger',  data.errmsg);
+            }
+        }).fail(function(data) {
+            userAlert('danger', 'Snippet Bad! The server monkeys left a wrench in the code.');
+        }).always(function(data) {
+            name.val('');
+            password.val('');
+            securityAnswer1.val('');
+            securityAnswer2.val('');
+            $('#registerModal').modal('hide');
+        });
+    } else { return true; }
 }
 
+// login function 
+function loginUser(e){
+    var target = $(e.target),
+        username =      target.find('input[name="name"]'),
+        password =      target.find('input[name="password"]');
+    var formValid = username.get(0).checkValidity() &&
+                    password.get(0).checkValidity();
+    if (formValid) {
+        e.preventDefault();
+        let url = SnippetsUrl + '?cmd=login_user';
+        $.post(url, {
+            name: username.val(),
+            password: password.val(),
+        }).done(function(response) {
+            if (response.status === 'OK') {
+                userAlert('success', 'Logged in successfully.');
+                $('#login-indicator').text('Welcome, ' + response.username + '!');
+            } else {
+                userAlert('danger', response.errmsg);
+            }
+        }).fail(function(response) {
+            userAlert('danger', 'Snippet Bad! The server monkeys left a wrench in the code.');
+           
+        }).always(function(response) {
+            username.val('');
+            password.val('');
+            $('#loginModal').modal('hide');
+        });
+    } else { return true; }
+}
 
 // function to recover password based on two security questions
 function recoverPassword(e){
@@ -139,36 +186,35 @@ function recoverPassword(e){
         username =           target.find('input[name="name"]'),
         newPassword =        target.find('input[name="newPassword"]'),
         confirmNewPassword = target.find('input[name="verifyNewPassword"]'); 
-    
-    if(securityAnswer1.get(0).checkValidity() && securityAnswer2.get(0).checkValidity() && username.get(0).checkValidity() && newPassword.get(0).checkValidity() && confirmNewPassword.get(0).checkValidity()){
+    var formValid = securityAnswer1.get(0).checkValidity() &&
+                    securityAnswer2.get(0).checkValidity() &&
+                    username.get(0).checkValidity() &&
+                    newPassword.get(0).checkValidity() &&
+                    confirmNewPassword.get(0).checkValidity();
+    if (formValid) {
         e.preventDefault();
         let url = SnippetsUrl + '?cmd=update_user';
         $.post(url, {
             securityAnswer1: securityAnswer1.val(),
-            securityAnswer2: securityAnswer2.val() ,
-            name: username.val() ,
-            newPassword: newPassword.val() ,
+            securityAnswer2: securityAnswer2.val(),
+            name: username.val(),
+            newPassword: newPassword.val(),
             verifyNewPassword: confirmNewPassword.val(),
-        }).done(function( data ) { //done is not being called and the new passwords
+        }).done(function(response) { //done is not being called and the new passwords
+            if (response.status === 'OK') {
+                userAlert('success', 'User successfully reset.');
+            } else {
+                userAlert('danger', response.errmsg);
+            }
+        }).fail(function(response) {
+            userAlert('danger', 'Snippet Bad! The server monkeys left a wrench in the code.');
+        }).always(function(response) {
             securityAnswer1.val('');
             securityAnswer2.val('');
             username.val('');
             newPassword.val('');
             confirmNewPassword.val('');
-            $('#recoverPasswordModal').modal('hide')
-            if(data.status === 'OK') {
-                //success msg for userAlert
-                userAlert('success', 'User successfully reset.');
-            } else {
-                //fail msg for userAlert
-                userAlert('danger', data.errmsg);
-            }
-        }).fail(function(response) {
-            console.log(response);
-            userAlert('danger', 'Snippet Bad! The server monkeys left a wrench in the code.');
-            $('#recoverPasswordModal').modal('hide')
-        });   // add '.fail' call back for 500 errors 
-    } else {
-        return true;
-    }
+            $('#recoverPasswordModal').modal('hide');
+        });
+    } else { return true; }
 }

@@ -77,7 +77,7 @@
     
     function createUser($conn, $response) {
         if (verifyCreateUserInputs($_POST[password])) {
-            $user = new UserObject($_POST[name], password_hash($_POST[password], PASSWORD_DEFAULT), password_hash($_POST[securityAnswer1], PASSWORD_DEFAULT), password_hash($_POST[securityAnswer2], PASSWORD_DEFAULT));
+            $user = new UserObject($_POST[name], password_hash($_POST[password], PASSWORD_BCRYPT), password_hash($_POST[securityAnswer1], PASSWORD_BCRYPT), password_hash($_POST[securityAnswer2], PASSWORD_BCRYPT));
             $response = insertUser($conn, $response, $user);
         }
     }
@@ -91,13 +91,13 @@
         $user = verifyLoginUserInputs($conn, $_POST[name], $_POST[password]);
         session_start();
         $_SESSION["username"] = $user->getName();
-        $response["user"] = $user->getName();
+        $response["username"] = $user->getName();
         
         return $response;
     }
     
     function getUserSession($conn, $response) {
-        if (isset($_SESSION['id'])) {
+        if (isset($_SESSION["username"])) {
             $response["username"] = $_SESSION["username"];
         } else {
             throw new Exception("No user is logged in.");
@@ -170,7 +170,7 @@
         } else {
             throw new Exception("A user with that name wasn't found.");
         }
-        if (!password_verify($user->getPassword(), $password)) {
+        if (!password_verify($password, $user->getPassword())) {
             throw new Exception("This is not the correct password.");
         }
         return $user;
@@ -210,7 +210,7 @@
         
     function updateUser($conn, $user, $newPass) {
         $stmt = $conn->prepare("UPDATE User_Data SET Password = ? WHERE Username = ?;");
-        $stmt->bind_param("ss", password_hash($newPass, PASSWORD_DEFAULT), $user->getName());
+        $stmt->bind_param("ss", password_hash($newPass, PASSWORD_BCRYPT), $user->getName());
         $stmt->execute();
         $stmt->close();
 
