@@ -95,11 +95,15 @@ function userAlert(type, text) {
 
 function updateLoginStatus(username) {
     var currentOpenNavbar = $('#nav-content').find('div.navbar-nav:visible');
+    var nextOpenNavbar;
     if (!username) {
-        currentOpenNavbar.transitionTo($('#logged-out-nav'));
+        nextOpenNavbar = $('#logged-out-nav');
     } else {
         $('#login-indicator').text(username);
-        currentOpenNavbar.transitionTo($('#logged-in-nav'));
+        nextOpenNavbar = $('#logged-in-nav');
+    }
+    if (currentOpenNavbar.attr('id') != nextOpenNavbar.attr('id')){
+        currentOpenNavbar.transitionTo(nextOpenNavbar);    
     }
 }
 
