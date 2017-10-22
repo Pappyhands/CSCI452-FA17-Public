@@ -42,6 +42,11 @@
             case "get_user_session":
                 $response = getUserSession($conn, $response);
                 break;
+            // added this. Tenzin. 10/22/17    
+            // create this case. 
+            case "logout_user":
+                $response = endUserSession($conn, $response);
+                break;
             default:
                 $response = showDocumentation($conn, $response);
                 break;
@@ -102,6 +107,15 @@
         } else {
             throw new Exception("No user is logged in.");
         }
+        return $response;
+    }
+    // added this. Tenzin. 10/22/17 
+    // This function allows the user to log out. 
+    function endUserSession($conn, $response){
+        
+        $response["username"] = $_SESSION["username"];
+        session_destroy();//native to php
+      
         return $response;
     }
     
