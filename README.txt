@@ -13,8 +13,8 @@ Release 1 - Viewing Snippets (VS)
 Release 2 - User Accounts (UA)
 [COMPLETE] UA1 - As an unauthenticated or authenticated user, I want to be able to create a new user account.
 [COMPLETE] UA2 - As an unauthenticated user, I want to be able to change my password by answering two security questions so that I can access my account if I have forgotten my password.
-UA3 - As an unauthenticated user, I want to be able to login to my account.
-UA4 - As an authenticated user, I want to be see visible clues that make it clear if I am currently logged into Snippet Good.
+[COMPLETE] UA3 - As an unauthenticated user, I want to be able to login to my account.
+[COMPLETE] UA4 - As an authenticated user, I want to be see visible clues that make it clear if I am currently logged into Snippet Good.
 UA5 - As an authenticated user, I want to be able to logout of my account.
 
 Release 3 - Snippet Management (SM)
