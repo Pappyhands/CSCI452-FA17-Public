@@ -35,3 +35,5 @@
 13. Verify that logging in successfully will display a 'Welcome <username>' message
   to the left of the buttons.
   
+14. Test the log out functionality by clicking the 'Log out' button.
+  The user should be logged out and brought back to a view where they can log in or register.
