@@ -26,7 +26,7 @@ FOREIGN KEY (CreatorID) REFERENCES User_Data(UserID)
 
 USE SnippetGoodDatabase;
 
-INSERT INTO User_Data(Username, Password, SecurityAnswer1, SecurityAnswer2) VALUES 
+INSERT INTO User_Data(Username, Password, SecurityAnswer1, SecurityAnswer2) VALUES
 ("Aaron Smith", "8e72c2d77c68b351be2e2ff480f0a552", "Smith", "Spot"),
 ("WizardProfessor", "4f6dab54642c49d343243be5cd0c885d", "Malkovich", "Barack Obama"),
 ("Richard Dude", "f2638dbff86c757afa70670c11254a67", "YouAndWhatArmy", "IRequireAShrubbery"),
@@ -45,7 +45,7 @@ INSERT INTO Language_Data(LanguageName) VALUES
 ('CSS');
 
 
-INSERT INTO Snippet_Data(CreatorID, LanguageID, Description, Code) VALUES 
+INSERT INTO Snippet_Data(CreatorID, LanguageID, Description, Code) VALUES
 (1, 1, 'Print out Hello World!', 'public class Hello {
     public static void main(String[] args) {
         System.out.println("Hello World");
@@ -77,7 +77,7 @@ FOREIGN KEY (CreatorID) REFERENCES User_Data(UserID)
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
-    } 
+    }
 ?>'),
 
 (4,3,'Sweet HTML stuff', '<body>
@@ -150,7 +150,6 @@ FOREIGN KEY (CreatorID) REFERENCES User_Data(UserID)
     }
 }'),
 
-INSERT INTO Snippet_Data(CreatorID, LanguageID, Description, Code) VALUES 
 (4, 1, 'Print out Hello World!', 'public class Hello {
     public static void main(String[] args) {
         System.out.println("Hello World");
