@@ -4,6 +4,8 @@
 
 #nav-content {
     max-width: 1200px;
+    margin: auto;
+    width: 100%;
     padding: 0px 30px;
 }
 
@@ -16,8 +18,17 @@
     margin-top: -7px;
 }
 
+#recoverPasswordHidden, #registerUserHidden {
+    display: none;
+}
+
 .navbar-brand {
     text-shadow: 2px 2px 6px #000;
+}
+
+.username-display {
+    color: #ffffff;
+    padding-top: 7px;
 }
 
 /*
