@@ -1,0 +1,37 @@
+1. Reduce the width of the window below 1200 px.
+  Verify this doesn't break any styling.
+
+2. Reduce the width of the window below 768 px.
+  Verify this doesn't break any styling.
+  
+3. Click on the 'Register' button.
+  A modal should appear with a register form
+  
+4. Test the function of the cancel button.
+
+5. Test the function of the X button.
+
+6. Verify that all fields are required to submit the form.
+  Verify that a password requires at least 8 characters, 1 upper and lowercase letter, 1 number, and 1 symbol.
+
+7. Create a new user successfully using the register form.
+
+8. Click on the 'Log in' button.
+  A modal should appear with a sign-in form.
+ 
+9. Try entering only a username, and only a password, to test that all fields are required.
+  
+10. While within the Login modal, click the 'Forgot your password?' button.
+  The modal should change to a 'Forgot your password?' form that allows you to reset
+  your password by providing your username, your 2 security answers, and a new password.
+
+11. Change your password to a new password from the 'Forgot your password?' modal 
+  - remember this, you will need to login with it.
+
+12. Click on the 'Log in' button.
+  A modal should appear with a sign-in form.
+  Login with your correct user information here.
+  
+13. Verify that logging in successfully will display a 'Welcome <username>' message
+  to the left of the buttons.
+  
