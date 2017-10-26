@@ -84,12 +84,14 @@
         if (verifyCreateUserInputs($conn, $_POST[name], $_POST[password], $_POST[confirmPassword])) {
             $user = new UserObject($_POST[name], password_hash($_POST[password], PASSWORD_BCRYPT), password_hash($_POST[securityAnswer1], PASSWORD_BCRYPT), password_hash($_POST[securityAnswer2], PASSWORD_BCRYPT));
             $response = insertUser($conn, $response, $user);
+            return $response;
         }
     }
     
     function recoverUser($conn, $response) {
         $user = verifyResetPasswordInputs($conn, $_POST[name], $_POST[newPassword], $_POST[verifyNewPassword], $_POST[securityAnswer1], $_POST[securityAnswer2]);
-        $response = updateUser($conn, $user, $_POST[newPassword]);                
+        $response = updateUser($conn, $user, $_POST[newPassword]);   
+        return $response;
     }
     
     function loginUser($conn, $response) {
