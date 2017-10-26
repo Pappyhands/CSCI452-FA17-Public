@@ -46,6 +46,10 @@ $(document).ready(function() {
     $('form#recoverPasswordForm').on('submit', function(e) {
         recoverPassword(e); 
     });
+    //change this when html team adds button
+    $('#logged-in-nav>button').on('click', function(e) {
+        logoutUser();
+    });
     
     // make initial ajax calls
     getSnippets();
@@ -93,6 +97,7 @@ function userAlert(type, text) {
     $('#user-alert-container').empty().append(result);
 }
 
+//checking if you are logged in changes view depending on whether or not the user is logged in or not.
 function updateLoginStatus(username) {
     var currentOpenNavbar = $('#nav-content').find('div.navbar-nav:visible');
     var nextOpenNavbar;
@@ -196,6 +201,22 @@ function loginUser(e){
     } else { return true; }
 }
 
+// logout function
+function logoutUser() {
+    let url = SnippetsUrl + '?cmd=logout_user';
+    $.get(url)
+    .done(function(){
+        userAlert('success', 'User logged out!');
+        updateLoginStatus();
+    })
+    .fail(function(){
+        userAlert('danger', 'Snippet Bad! The server monkeys left a wrench in the code.');
+    })
+    .always(function(){
+        // there is nothing to do here, should we remove this?
+    });
+    
+}
 // function to recover password based on two security questions
 function recoverPassword(e){
     //e.target points to the DOM where input name is equal to the name of the modal form (ie. '#recoverPassword' form)
@@ -219,15 +240,18 @@ function recoverPassword(e){
             name: username.val(),
             newPassword: newPassword.val(),
             verifyNewPassword: confirmNewPassword.val(),
-        }).done(function(response) { //done is not being called and the new passwords
+        })
+        .done(function(response) { //done is not being called and the new passwords
             if (response.status === 'OK') {
                 userAlert('success', 'User successfully reset.');
             } else {
                 userAlert('danger', response.errmsg);
             }
-        }).fail(function(response) {
+        })
+        .fail(function(response) {
             userAlert('danger', 'Snippet Bad! The server monkeys left a wrench in the code.');
-        }).always(function(response) {
+        })
+        .always(function(response) {
             securityAnswer1.val(''); // reset form
             securityAnswer2.val('');
             username.val('');
@@ -237,6 +261,8 @@ function recoverPassword(e){
         });
     } else { return true; } // when form isn't valid
 }
+
+
 
 //Helper functions
 

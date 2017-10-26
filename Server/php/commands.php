@@ -81,7 +81,7 @@
     }
     
     function createUser($conn, $response) {
-        if (verifyCreateUserInputs($_POST[name], $_POST[password], $_POST[confirmPassword])) {
+        if (verifyCreateUserInputs($conn, $_POST[name], $_POST[password], $_POST[confirmPassword])) {
             $user = new UserObject($_POST[name], password_hash($_POST[password], PASSWORD_BCRYPT), password_hash($_POST[securityAnswer1], PASSWORD_BCRYPT), password_hash($_POST[securityAnswer2], PASSWORD_BCRYPT));
             $response = insertUser($conn, $response, $user);
         }
@@ -142,16 +142,19 @@
     
 // Verify inputs
     
-    function verifyCreateUserInputs($username, $password, $confirmPassword) {
+    function verifyCreateUserInputs($conn, $username, $password, $confirmPassword) {
         // preg_match matches a regular expression (regex) against a string. In this case, make sure the password is good.
         // Returns 1 if the string passes, 0 if not, and false if an error occurs.
+        
+        // checks to see if the user already exist. 10/22/17
         $findUserResponse = findUser($conn, $username);
-        if ($findUserResponse["status"] == "OK") {
+        if ($findUserResponse["user"]->getName() != null) {
             throw new Exception("A user with that name already exists");
         }
         if (preg_match("/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.{8,})/", $password) != 1) {
             throw new Exception("Password not secure enough. Have at least 8 characters, composing of at least 1 upper and lowercase character, 1 number and 1 symbol.");
         }
+        // Checks to see if the passwords match for Create User. 10/22/17 
         if ($password != $confirmPassword) {
             throw new Exception("Password doesn't match its confirmation");
         }
@@ -162,7 +165,7 @@
     function verifyResetPasswordInputs($conn, $username, $resetPass, $resetPassConfirm, $answer1, $answer2) {
         $user = null; // Will only be set if findUser finds a user.
         $findUserResponse = findUser($conn, $username);
-        if ($findUserResponse["status"] == "OK") {
+        if ($findUserResponse["user"]->getName() != null) {
             $user = $findUserResponse["user"];
         } else {
             throw new Exception("A user with that name wasn't found.");
@@ -187,7 +190,7 @@
     function verifyLoginUserInputs($conn, $username, $password) {
         $user = null; // Will only be set if findUser finds a user.
         $findUserResponse = findUser($conn, $username);
-        if ($findUserResponse["status"] == "OK") {
+        if ($findUserResponse["user"]->getName() != null) {
             $user = $findUserResponse["user"];
         } else {
             throw new Exception("A user with that name wasn't found.");

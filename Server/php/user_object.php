@@ -1,10 +1,10 @@
 <?php
     class UserObject {
         
-        private $user_name = "defaultname";
-        private $user_password = "defaultpassword";
-        private $security_answer1 = "defaultanswer1";
-        private $security_answer2 = "defaultanswer2";
+        private $user_name = null;
+        private $user_password = null;
+        private $security_answer1 = null;
+        private $security_answer2 = null;
         
         public function __construct($name, $pass, $answer1, $answer2) {
             $this->setName($name);

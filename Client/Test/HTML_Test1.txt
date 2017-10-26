@@ -1,3 +1,0 @@
-go to hosted url. 
-
-verify you see 4 code snippets.
