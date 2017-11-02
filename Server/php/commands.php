@@ -282,7 +282,7 @@
             $stmt->execute();
             $stmt->close();
         } else {
-            throw new Exception("required field left blank");
+            throw new Exception("Required Field Left Blank when trying to create a new Snippet.");
         }
         
         $response["status"] = "OK";

@@ -299,7 +299,7 @@ function recoverPassword(e){
 // new snippet creation submit
 function createSnippet(e) {
     var target = $(e.target),
-        snippetName =     target.find('input[name="snippetName"]'), 
+        snippetName =     target.find('input[name="snippetName"]'),
         language =        target.find('select'),
         snippetText =     target.find('textarea[name="snippetText"]');
     var formValid = snippetName.get(0).checkValidity() && 
@@ -319,7 +319,7 @@ function createSnippet(e) {
             } else {
                 userAlert('danger',  data.errmsg);
             }
-        })
+        }) 
         .fail(function(data) {
             userAlert('danger', 'Snippet Bad! The server monkeys left a wrench in the code.');
         })

@@ -22,3 +22,44 @@ This course places teams of students in an agile development environment where t
 - [ ] **SM2 -** As an authenticated user I want to be able to be able to select from a list of predefined languages when associating a language with a new snippet.
 - [ ] **SM3 -** As an authenticated user I want to be able to be able to delete or edit snippets that I have created.
 - [ ] **SM4 -** As an authenticated user I want to be sure that other users cannot delete or edit snippets that I have created.
+- 
+
+<-- Convention -->
+
+JavaScript
+
+function verbNounName() {
+
+    code goes here;
+    
+}
+
+PHP
+// write functional comments (ie listeners are here, etc.) to denote sections of related code.
+function verbNounName() {
+    
+    code goes here;
+    
+}
+
+for PHP use null rather than NULL.
+
+when coding take human readability into account  ie:
+
+.done(function(data) {
+    if (data.status === "OK") {
+        userAlert('success', 'Snippet Successfully Created.');
+        getSnippets();
+    } else {
+        userAlert('danger',  data.errmsg);
+    }
+})
+.fail(function(data) {
+    userAlert('danger', 'Snippet Bad! The server monkeys left a wrench in the code.');
+})
+
+
+rather than:
+
+.done(function(data) { if (data.status === "OK") { userAlert('success', 'Snippet Successfully Created.'); getSnippets(); } else { userAlert('danger',  data.errmsg); } }).fail(function(data) { userAlert('danger', 'Snippet Bad! The server monkeys left a wrench in the code.'); })
+or something similarly unreadable.
