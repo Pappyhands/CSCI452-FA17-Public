@@ -7,8 +7,7 @@
 	and return the first one it finds. If the key does not exist,
 	an empty string is returned.
 */
-function getValue($key, $default)
-{
+function getValue($key, $default) {
 	$ret = $default;
 	if (isset($_GET[$key]))
 		$ret = $_GET[$key];
@@ -16,8 +15,7 @@ function getValue($key, $default)
 		$ret = $_POST[$key];
 	return sanitize($ret);
 }
-function getSessionValue($key, $def)
-{
+function getSessionValue($key, $def) {
 	$ret = $def;
 	if (isset($_SESSION[$key]))
 		$ret = $_SESSION[$key];
@@ -25,22 +23,17 @@ function getSessionValue($key, $def)
 		$_SESSION[$key] = $def;
 	return $ret;
 }
-function setSessionValue($key, $value)
-{
+function setSessionValue($key, $value) {
 	$_SESSION[$key] = $value;
 }
-function sanitize($t)
-{
+function sanitize($t) {
 	global $db_server;
-	if (is_array($t))
-	{
-			foreach($t as $var=>$val)
-			{
+	if (is_array($t)) {
+			foreach($t as $var=>$val) {
 					$output[$var] = sanitize($val);
 			}
 	}
-	else
-	{
+	else {
 		$output = $t;
 		$output = strip_tags(trim($t));
 		$output = htmlentities($output, ENT_NOQUOTES);

@@ -47,6 +47,9 @@
             case "logout_user":
                 $response = endUserSession($conn, $response);
                 break;
+            case "create_snippet";
+                $response = createSnippet($conn, $response);
+                break;
             default:
                 $response = showDocumentation($conn, $response);
                 break;
@@ -111,10 +114,9 @@
         }
         return $response;
     }
-    // added this. Tenzin. 10/22/17 
+   
     // This function allows the user to log out. 
     function endUserSession($conn, $response){
-        
         $response["username"] = $_SESSION["username"];
         session_destroy();//native to php
       
@@ -133,6 +135,9 @@
         
         $api_command["name"] = "update_user";
         $api_command["description"] = "Update a user's credentials in the database.";
+        
+        $api_command["name"] = "create_snippet";
+        $api_command["description"] = "Inserts a new snippet into the database";
         
         array_push($api_command_list, $api_command);
         
@@ -246,4 +251,23 @@
         
         return $response;
     }
+    
+    function createSnippet($conn, $response) {
+        $creatorID = $_POST[creatorID];
+        $languageID = $_POST[languageID];
+        $description = $_POST[description];
+        $code = $_POST[code];
+        
+        if ($code != "" && $code != null && $description != "" && $description != null) {
+            $stmt = $conn->prepare("INSERT INTO Snippet_Data(CreatorID, LanguageID, Description, Code) VALUES (?,?,?,?);");
+            $stmt->bind_param("iiss", $creatorID, $languageID, $description, $code);
+            $stmt->execute();
+            $stmt->close();
+        } else {
+            throw new Exception("required field left blank");
+        }
+        
+        $response["status"] = "OK";
+        return $response;
+    }    
 ?>

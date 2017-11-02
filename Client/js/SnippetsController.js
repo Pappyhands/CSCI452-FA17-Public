@@ -35,6 +35,10 @@ $(document).ready(function() {
     $('#recover-submit').on('click', function(e) {
         $('#recoverPasswordHidden').click();
     });
+    //
+     $('#snippet-submit').on('click', function(e) {
+        $('#submitSnippetHidden').click();
+    });
     
     // listen for form submit events
     $('form#loginUserForm').on('submit', function(e) {
@@ -46,10 +50,14 @@ $(document).ready(function() {
     $('form#recoverPasswordForm').on('submit', function(e) {
         recoverPassword(e); 
     });
+    $('form#snippetEntryForm').on('submit', function(e) {
+        createSnippet(e);
+    });
     //change this when html team adds button
     $('#logged-in-nav>button').on('click', function(e) {
         logoutUser();
     });
+    
     
     // make initial ajax calls
     getSnippets();
@@ -262,6 +270,39 @@ function recoverPassword(e){
     } else { return true; } // when form isn't valid
 }
 
+// new snippet creation submit
+function createSnippet(e) {
+    var target = $(e.target),
+        snipppetName =    target.find('input[name="snipppetName"]'), 
+        language =        target.find('input[name="language"]'),
+        snippetText =     target.find('input[name="snippetTex"]');
+    var formValid = snipppetName.get(0).checkValidity() && 
+                    language.get(0).checkValidity() && 
+                    snippetText.get(0).checkValidity();
+    if (formValid) {
+        e.preventDefault();
+        let url = SnippetsUrl + '?cmd=create_snippet'
+        ;
+        $.post(url, {
+            snipppetName: snipppetName.val(),
+            language: language.val(),
+            snippetText: snippetText.val(),
+        }).done(function(data) {
+            if (data.status === "OK") {
+                userAlert('success', 'Snippet Successfully Created.');
+            } else {
+                userAlert('danger',  data.errmsg);
+            }
+        }).fail(function(data) {
+            userAlert('danger', 'Snippet Bad! The server monkeys left a wrench in the code.');
+        }).always(function(data) {
+            snipppetName.val('');
+            language.val('');
+            snippetText.val('');
+            $('#snippetEntryForm').modal('hide');
+        });
+    } else { return true; }
+}
 
 
 //Helper functions

@@ -40,8 +40,7 @@
             // consists of several event handlers (e.g., click) generated when the user 
             // interacts with the page.
             
-            $(document).ready(function() 
-            {
+            $(document).ready(function() {
                 // event handlers do two things:
                 
                 // 1) manipulate the model, this is usually done via a post to PHP 
@@ -52,8 +51,7 @@
                 updateView();
             });
             
-            $("#switch1").click(function () 
-            {
+            $("#switch1").click(function ()  {
                 // event handlers do two things:
                 
                 // 1) manipulate the model, this is usually done via a post to PHP 
@@ -63,8 +61,7 @@
                 // 2) update the view by calling your updateView method...
                 updateView();
             });
-            $("#switch2").click(function () 
-            {
+            $("#switch2").click(function () {
                 // event handlers do two things:
                 
                 // 1) manipulate the model, this is usually done via a post to PHP 
@@ -77,15 +74,12 @@
             
             // you will always have an updateView function that
             // updates the HTML based on the contents of the model...
-            function updateView()
-            {
-                if (model.currentView == "view1")
-                {
+            function updateView() {
+                if (model.currentView == "view1") {
                     $("#view1").show(1000);
                     $("#view2").hide();
                 }
-                else
-                {
+                else {
                     $("#view2").show(1000);
                     $("#view1").hide();
                 }
