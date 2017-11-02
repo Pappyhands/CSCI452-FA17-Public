@@ -54,7 +54,7 @@ $(document).ready(function() {
         createSnippet(e);
     });
     //change this when html team adds button
-    $('#logged-in-nav>button').on('click', function(e) {
+    $('#logout-button').on('click', function(e) {
         logoutUser();
     });
     
@@ -62,6 +62,7 @@ $(document).ready(function() {
     // make initial ajax calls
     getSnippets();
     getUserSession();
+    getLanguages();
 }); 
 
 
@@ -83,6 +84,7 @@ function updateActiveSnippet() {
 function updateSnippetList() {
     let snippets = model.getSnippets();
     console.log(snippets);
+    snippetsTable.clear();
     $.each(snippets, function(index, snippet) {
         snippetsTable.row.add([
             snippet['id'],
@@ -120,6 +122,19 @@ function updateLoginStatus(username) {
     }
 }
 
+//populate language drop down
+function updateLanguageList(){
+    var languageDropDown = $('#languageSelect').empty();
+    var languages = model.getLanguageList();
+    console.log(languages)
+    for(var i = 0; i < languages.length; i++){
+        var option = document.createElement('option');
+        option.innerText = languages[i]['language_name'];
+        option.setAttribute('language_id', languages[i]['id']);
+        languageDropDown.append($(option));
+    }
+}
+
 // GET ajax calls
 function getSnippets() {
     let url = SnippetsUrl + '?cmd=list';
@@ -137,6 +152,14 @@ function getUserSession() {
     });
 }
 
+function getLanguages() {
+    let url = SnippetsUrl + '?cmd=list_languages';
+    $.get(url, function(response) {
+        let languageData = JSON.parse(response['languages']);
+        model.setLanguageList(languageData);
+        updateLanguageList();
+    });
+}
 // user and password submit
 function registerUser(e) {
     var target = $(e.target),
@@ -159,15 +182,18 @@ function registerUser(e) {
             confirmPassword: confirmPassword.val(),
             securityAnswer1: securityAnswer1.val(),
             securityAnswer2: securityAnswer2.val(),
-        }).done(function(data) {
+        })
+        .done(function(data) {
             if (data.status === "OK") {
                 userAlert('success', 'User successfully registered.  Welcome!');
             } else {
                 userAlert('danger',  data.errmsg);
             }
-        }).fail(function(data) {
+        })
+        .fail(function(data) {
             userAlert('danger', 'Snippet Bad! The server monkeys left a wrench in the code.');
-        }).always(function(data) {
+        })
+        .always(function(data) {
             name.val('');
             password.val('');
             confirmPassword.val('');
@@ -273,33 +299,35 @@ function recoverPassword(e){
 // new snippet creation submit
 function createSnippet(e) {
     var target = $(e.target),
-        snipppetName =    target.find('input[name="snipppetName"]'), 
-        language =        target.find('input[name="language"]'),
-        snippetText =     target.find('input[name="snippetTex"]');
-    var formValid = snipppetName.get(0).checkValidity() && 
-                    language.get(0).checkValidity() && 
+        snippetName =     target.find('input[name="snippetName"]'), 
+        language =        target.find('select'),
+        snippetText =     target.find('textarea[name="snippetText"]');
+    var formValid = snippetName.get(0).checkValidity() && 
                     snippetText.get(0).checkValidity();
     if (formValid) {
         e.preventDefault();
-        let url = SnippetsUrl + '?cmd=create_snippet'
-        ;
+        let url = SnippetsUrl + '?cmd=create_snippet';
         $.post(url, {
-            snipppetName: snipppetName.val(),
-            language: language.val(),
+            snippetName: snippetName.val(),
+            language: language.find(":selected").attr('language_id'),
             snippetText: snippetText.val(),
-        }).done(function(data) {
+        })
+        .done(function(data) {
             if (data.status === "OK") {
                 userAlert('success', 'Snippet Successfully Created.');
+                getSnippets();
             } else {
                 userAlert('danger',  data.errmsg);
             }
-        }).fail(function(data) {
+        })
+        .fail(function(data) {
             userAlert('danger', 'Snippet Bad! The server monkeys left a wrench in the code.');
-        }).always(function(data) {
-            snipppetName.val('');
+        })
+        .always(function(data) {
+            snippetName.val('');
             language.val('');
             snippetText.val('');
-            $('#snippetEntryForm').modal('hide');
+            $('#snippetEntryModal').modal('hide');
         });
     } else { return true; }
 }

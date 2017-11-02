@@ -42,13 +42,14 @@
             case "get_user_session":
                 $response = getUserSession($conn, $response);
                 break;
-            // added this. Tenzin. 10/22/17    
-            // create this case. 
             case "logout_user":
                 $response = endUserSession($conn, $response);
                 break;
             case "create_snippet";
                 $response = createSnippet($conn, $response);
+                break;
+            case "list_languages";
+                $response = listLanguages($conn, $response);
                 break;
             default:
                 $response = showDocumentation($conn, $response);
@@ -83,9 +84,26 @@
         return $response;
     }
     
+    function listLanguages($conn, $response) {
+        $stmt = "SELECT LanguageID, LanguageName FROM Language_Data";
+        $result = mysqli_query($conn, $stmt);
+        $language = array();
+        $languages = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $language["id"] = $row["LanguageID"];
+            $language["language_name"] = $row["LanguageName"];
+            array_push($languages, $language);
+        }
+        
+        $response["status"] = "OK"; 
+        $response["languages"] = json_encode($languages);
+        
+        return $response;
+    }
+    
     function createUser($conn, $response) {
         if (verifyCreateUserInputs($conn, $_POST[name], $_POST[password], $_POST[confirmPassword])) {
-            $user = new UserObject($_POST[name], password_hash($_POST[password], PASSWORD_BCRYPT), password_hash($_POST[securityAnswer1], PASSWORD_BCRYPT), password_hash($_POST[securityAnswer2], PASSWORD_BCRYPT));
+            $user = new UserObject(null, $_POST[name], password_hash($_POST[password], PASSWORD_BCRYPT), password_hash($_POST[securityAnswer1], PASSWORD_BCRYPT), password_hash($_POST[securityAnswer2], PASSWORD_BCRYPT));
             $response = insertUser($conn, $response, $user);
             return $response;
         }
@@ -226,12 +244,12 @@
     }
     
     function findUser ($conn, $username) {
-        $stmt = $conn->prepare("SELECT Username, Password, SecurityAnswer1, SecurityAnswer2 FROM User_Data WHERE Username = ?;");
+        $stmt = $conn->prepare("SELECT UserID, Username, Password, SecurityAnswer1, SecurityAnswer2 FROM User_Data WHERE Username = ?;");
         $stmt->bind_param("s", $username);
         $stmt->execute();
-        $stmt->bind_result($name, $pass, $answer1, $answer2);
+        $stmt->bind_result($id, $name, $pass, $answer1, $answer2);
         $stmt->fetch();
-        $user = new UserObject($name, $pass, $answer1, $answer2);
+        $user = new UserObject($id, $name, $pass, $answer1, $answer2);
         $stmt->close();
         
         $response["user"] = $user;
@@ -253,10 +271,10 @@
     }
     
     function createSnippet($conn, $response) {
-        $creatorID = $_POST[creatorID];
-        $languageID = $_POST[languageID];
-        $description = $_POST[description];
-        $code = $_POST[code];
+        $creatorID = findUser($conn, $_SESSION["username"])["user"]->getID();
+        $languageID = $_POST[language];
+        $description = $_POST[snippetName];
+        $code = $_POST[snippetText];
         
         if ($code != "" && $code != null && $description != "" && $description != null) {
             $stmt = $conn->prepare("INSERT INTO Snippet_Data(CreatorID, LanguageID, Description, Code) VALUES (?,?,?,?);");

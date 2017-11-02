@@ -1,6 +1,7 @@
 // Snippets Model class constructor
 function SnippetsModel() {
     var snippets = [];
+    var languages = [];
     var selectedSnippetRow = null;
     
     // finds the data representation of the dataTable row
@@ -21,6 +22,8 @@ function SnippetsModel() {
         setSelectedSnippet(row) { selectedSnippetRow = row; },
         getSnippetRow() { return selectedSnippetRow; },
         getSelectedSnippet: fetchSelectedSnippet,
+        setLanguageList(newList) { languages = newList; },
+        getLanguageList(){ return languages; },
     };
     
 }

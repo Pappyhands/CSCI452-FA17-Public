@@ -25,7 +25,7 @@
     		   	<div class="collapse navbar-collapse justify-content-end">
 					<div id="logged-in-nav" class="navbar-nav" style="display:none;">
 						<div class="username-display">You are logged in as <span id="login-indicator" style="font-weight:700;"></span></div>
-						<button class="btn btn-danger" >Log out</button>
+						<button id="logout-button" class="btn btn-danger" >Log out</button>
 						<button class="btn btn-primary" data-toggle="modal" data-target="#snippetEntryModal">Submit Snippet</button>
 					</div>
 					<div id="logged-out-nav" class="navbar-nav">
@@ -81,7 +81,8 @@
 	</div>
 	
 <!-- Modals -->
-<div class="modal fade" id="snippetEntryModal" tabindex="-1" role="dialog" aria-labelledby="snippetEntryModalLabel" aria-hidden="true">
+	<!-- Create Snippet Modal -->
+	<div class="modal fade" id="snippetEntryModal" tabindex="-1" role="dialog" aria-labelledby="snippetEntryModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -91,19 +92,18 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form id="snippetEntryForm" action="">
+					<form id="snippetEntryForm">
 						<label>Snippet name</label>
 						<br/>
 						<input type="text" placeholder="Enter Snippet Name" name="snippetName" required>
 						<br/>
-						<label>Language</label>
+						<label><b>Language</b></label>
 						<br/>
-						<input type="text" placeholder="Enter Language" name="language" required>
+						<select id="languageSelect"></select>
 						<br/>
 						<label><b>Snippet Area</b></label>
 						<br/>
 						<textarea rows="10" cols = "40" placeholder="Submit Snippet" name="snippetText" required></textarea>
-						<br/>
 						<input type="submit" id="submitSnippetHidden" style="display:none;">
 					</form>
 				</div>

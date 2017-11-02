@@ -1,12 +1,14 @@
 <?php
     class UserObject {
         
+        private $user_id = null;
         private $user_name = null;
         private $user_password = null;
         private $security_answer1 = null;
         private $security_answer2 = null;
         
-        public function __construct($name, $pass, $answer1, $answer2) {
+        public function __construct($id, $name, $pass, $answer1, $answer2) {
+            $this->setID($id);
             $this->setName($name);
             $this->setPassword($pass);
             $this->setSecurityAnswer1($answer1);
@@ -43,6 +45,14 @@
         
         public function getSecurityAnswer2() {
             return $this->security_answer2;
+        }
+        
+        public function setID($id) {
+            $this->user_id = $id;
+        }
+        
+        public function getID() {
+            return $this->user_id;
         }
     }
 ?>
