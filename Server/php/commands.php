@@ -48,6 +48,12 @@
             case "create_snippet";
                 $response = createSnippet($conn, $response);
                 break;
+            case "update_snippet";
+                $response = updateSnippet($conn, $response);
+            case "edit_snippet";
+                $response = editSnippet($conn, $response);
+            case "delete_snippet";
+                $response = deleteSnippet($conn, $response);
             case "list_languages";
                 $response = listLanguages($conn, $response);
                 break;
@@ -287,5 +293,22 @@
         
         $response["status"] = "OK";
         return $response;
-    }    
+    }
+    
+    function deleteSnippet($conn, $response){
+         $stmt = $conn->prepare("DELETE FROM Snippet_Data WHERE SnippetID = ?");
+         $stmt->bind_param("i", $response[snippetID]); 
+         $stmt->execute();
+    }
+    
+    function updateSnippet($conn, $response) {
+        $stmt = $conn->prepare("UPDATE Snippet_Data SET Code = ? WHERE SnippetID = ?;");
+        $stmt->bind_param("si", $response[code], $response[snippetID]);
+        $stmt->execute();
+        $stmt->close();
+        
+        $response["status"] = "OK";
+        
+        return $response;
+    }
 ?>
