@@ -50,10 +50,10 @@
                 break;
             case "update_snippet";
                 $response = updateSnippet($conn, $response);
-            case "edit_snippet";
-                $response = editSnippet($conn, $response);
+                break;
             case "delete_snippet";
                 $response = deleteSnippet($conn, $response);
+                break;
             case "list_languages";
                 $response = listLanguages($conn, $response);
                 break;
@@ -264,6 +264,20 @@
         return $response;
     }
         
+    function findSnippetCreatorID ($conn, $snippetID){
+        $stmt = $conn->prepare("SELECT CreatorID FROM Snippet_Data WHERE SnippetID = ?;");
+        $stmt->bind_param("s", $snippetID);
+        $stmt->execute();
+        $stmt->bind_result($creatorID);
+        $stmt->fetch();
+        $stmt->close();
+        
+        $response["creatorID"] = $creatorID;
+        $response["status"] = "OK";
+        
+        return $response;
+    }    
+        
     function updateUser($conn, $user, $newPass) {
         $stmt = $conn->prepare("UPDATE User_Data SET Password = ? WHERE Username = ?;");
         $stmt->bind_param("ss", password_hash($newPass, PASSWORD_BCRYPT), $user->getName());
@@ -295,20 +309,38 @@
         return $response;
     }
     
-    function deleteSnippet($conn, $response){
-         $stmt = $conn->prepare("DELETE FROM Snippet_Data WHERE SnippetID = ?");
-         $stmt->bind_param("i", $response[snippetID]); 
-         $stmt->execute();
+    function updateSnippet($conn, $response) {
+        $user = findUser($conn, $_SESSION["username"])["user"];
+        $snippetID = $_POST["snippet_id"];
+        if($user->getID() == findSnippetCreatorID($conn, $snippetID)["creatorID"]){
+            $stmt = $conn->prepare("UPDATE Snippet_Data SET Code = ?, Description = ? WHERE SnippetID = ?;");
+            $stmt->bind_param("ssi", $_POST["snippetText"], $_POST["snippetName"], $snippetID);
+            $stmt->execute();
+            $stmt->close();
+            
+            $response["status"] = "OK";
+            return $response;
+        }
+        
+        else {
+            throw new Exception("You are not the creator of this Snippet.");
+        }
     }
     
-    function updateSnippet($conn, $response) {
-        $stmt = $conn->prepare("UPDATE Snippet_Data SET Code = ? WHERE SnippetID = ?;");
-        $stmt->bind_param("si", $response[code], $response[snippetID]);
-        $stmt->execute();
-        $stmt->close();
+    function deleteSnippet($conn, $response){
+        $user = findUser($conn, $_SESSION["username"])["user"];
+        $snippetID = $_POST["snippet_id"];
         
-        $response["status"] = "OK";
-        
-        return $response;
+        if($user->getID() == findSnippetCreatorID($conn, $snippetID)["creatorID"]){
+             $stmt = $conn->prepare("DELETE FROM Snippet_Data WHERE SnippetID = ?");
+             $stmt->bind_param("i", $snippetID); 
+             $stmt->execute();
+             
+             $response["status"] = "OK";
+             return $response;
+        }
+        else {
+            throw new Exception("You are not the creator of this Snippet.");
+        }
     }
 ?>

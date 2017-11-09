@@ -4,11 +4,15 @@ const getUrl = window.location;
 const baseUrl = getUrl.protocol + '//' + getUrl.host + '/';
 const SnippetsUrl = baseUrl + 'Server/php/commands.php';
 const model = new SnippetsModel();
+let currentUsername;
 
 // 
 $(document).ready(function() {
     // initialize datatable
     window.snippetsTable = $('#snippets-table').DataTable({
+        // "scrollY": "600px",
+        // "scrollCollapse": true,
+        // "paging":         false,
         'columnDefs': [{
             'targets': [0],
             'visible': false,
@@ -21,17 +25,33 @@ $(document).ready(function() {
         model.setSelectedSnippet(snippetsTable.row(this));
         updateActiveSnippet();
     });
+    
+    // 
+    $('#deleteSnippetButton').on('click', deleteSnippet);
+
     $('#forgot-password-button').on('click', () => { $('#login').transitionTo($('#recoverPassword'));  });
+    
     $('#back-to-login').on('click', () => { $('#recoverPassword').transitionTo($('#login')); });
+    
     $('#loginModal').on('hidden.bs.modal', () => { $('#recoverPassword').transitionTo($('#login')); });
+    
+    $('#updateSnippetModal').on('show.bs.modal', updateSnippetForm);
+    
     // click event listeners on modal submit buttons
     // these each trigger a click event on a hidden submit button in their respective forms
+    
     $('#login-submit').on('click', function(e) {
         $('#loginUserHidden').click();
     });
+    
     $('#register-submit').on('click', function(e) {
        $('#registerUserHidden').click(); 
     });
+    
+    $('#update-snippet-submit').on('click', function(e) {
+        $('#updateSnippetHidden').click();
+    });
+    
     $('#recover-submit').on('click', function(e) {
         $('#recoverPasswordHidden').click();
     });
@@ -44,20 +64,27 @@ $(document).ready(function() {
     $('form#loginUserForm').on('submit', function(e) {
         loginUser(e); 
     });
+    
+    $('form#updateSnippetForm').on('submit', function(e) {
+        updateSnippet(e);   
+    });
+    
     $('form#registerUserForm').on('submit', function(e) {
         registerUser(e);   
     });
+    
     $('form#recoverPasswordForm').on('submit', function(e) {
         recoverPassword(e); 
     });
+    
     $('form#snippetEntryForm').on('submit', function(e) {
         createSnippet(e);
     });
+    
     //change this when html team adds button
     $('#logout-button').on('click', function(e) {
         logoutUser();
     });
-    
     
     // make initial ajax calls
     getSnippets();
@@ -78,12 +105,17 @@ function updateActiveSnippet() {
     var code = $('#snippet-frame')
         .find('code')
         .text(snippet.code);
+        
+    if (snippet.creator == currentUsername) {
+        $('#snippet-owner-controls').fadeIn(167);
+    } else {
+        $('#snippet-owner-controls').fadeOut(167);
+    }
 }
 
 // updates the view for the snippets list
 function updateSnippetList() {
     let snippets = model.getSnippets();
-    console.log(snippets);
     snippetsTable.clear();
     $.each(snippets, function(index, snippet) {
         snippetsTable.row.add([
@@ -108,13 +140,13 @@ function userAlert(type, text) {
 }
 
 //checking if you are logged in changes view depending on whether or not the user is logged in or not.
-function updateLoginStatus(username) {
+function updateLoginStatus() {
     var currentOpenNavbar = $('#nav-content').find('div.navbar-nav:visible');
     var nextOpenNavbar;
-    if (!username) {
+    if (!currentUsername) {
         nextOpenNavbar = $('#logged-out-nav');
     } else {
-        $('#login-indicator').text(username);
+        $('#login-indicator').text(currentUsername);
         nextOpenNavbar = $('#logged-in-nav');
     }
     if (currentOpenNavbar.attr('id') != nextOpenNavbar.attr('id')){
@@ -135,6 +167,18 @@ function updateLanguageList(){
     }
 }
 
+function updateSnippetForm() {
+    let currentSnippet = model.getSelectedSnippet();
+    
+    let snippetName = currentSnippet.description;
+    let snippetText = currentSnippet.code;
+    
+    let target = $('#updateSnippetForm');
+    target.find('input[name="snippetName"]').val(snippetName);
+    target.find('textarea[name="snippetText"]').val(snippetText);
+}
+
+
 // GET ajax calls
 function getSnippets() {
     let url = SnippetsUrl + '?cmd=list';
@@ -148,7 +192,8 @@ function getSnippets() {
 function getUserSession() {
     let url = SnippetsUrl + '?cmd=get_user_session';
     $.get(url, function(response) {
-        updateLoginStatus(response.username);
+        currentUsername = response.username
+        updateLoginStatus();
     });
 }
 
@@ -220,7 +265,8 @@ function loginUser(e){
         }).done(function(response) {
             if (response.status === 'OK') {
                 userAlert('success', 'Logged in successfully.');
-                updateLoginStatus(response.username);
+                currentUsername = response.username;
+                updateLoginStatus();
             } else {
                 userAlert('danger', response.errmsg);
             }
@@ -241,6 +287,7 @@ function logoutUser() {
     $.get(url)
     .done(function(){
         userAlert('success', 'User logged out!');
+        currentUsername = null;
         updateLoginStatus();
     })
     .fail(function(){
@@ -330,6 +377,65 @@ function createSnippet(e) {
             $('#snippetEntryModal').modal('hide');
         });
     } else { return true; }
+}
+
+// update snippet creation submit
+function updateSnippet(e) {
+    
+    // $snippetID, $code, $username
+    
+    var target = $(e.target),
+        snippetName =     target.find('input[name="snippetName"]'), // THESE CHANGE (?)
+        snippetText =     target.find('textarea[name="snippetText"]'); // THESE CHANGE (?)
+    var formValid = snippetName.get(0).checkValidity() && 
+                    snippetText.get(0).checkValidity();
+    if (formValid) {
+        e.preventDefault();
+        let url = SnippetsUrl + '?cmd=update_snippet';
+        $.post(url, {
+            snippet_id: model.getSelectedSnippet().id,
+            snippetName: snippetName.val(),
+            snippetText: snippetText.val(),
+        })
+        .done(function(data) {
+            if (data.status === "OK") {
+                userAlert('success', 'Snippet Successfully Updated.');
+                getSnippets();
+            } else {
+                userAlert('danger',  data.errmsg);
+            }
+        }) 
+        .fail(function(data) {
+            userAlert('danger', 'Snippet Bad! The server monkeys left a wrench in the code.');
+        })   
+        .always(function(data) {
+            snippetName.val('');
+            snippetText.val('');
+            $('#updateSnippetModal').modal('hide');
+        });
+    } else { return true; }
+}
+
+// delete a snippet
+function deleteSnippet(e) {
+    e.preventDefault();
+    let url = SnippetsUrl + '?cmd=delete_snippet';
+    let selectedSnippetID = model.getSelectedSnippet().id;
+    $.post(url, {
+        snippet_id: selectedSnippetID,
+    })
+    .done(function(data) {
+        if (data.status === "OK") {
+            userAlert('success', 'Snippet successfully deleted.');
+            getSnippets();
+            $('#snippets-table tbody tr:first').click();
+        } else {
+            userAlert('danger',  data.errmsg);
+        }
+    })
+    .fail(function(data) {
+        userAlert('danger', 'Snippet Bad! The server monkeys left a wrench in the code.');
+    })
 }
 
 
