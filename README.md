@@ -34,6 +34,30 @@ function verbNounName() {
     
 }
 
+when declaring variables use let or const rather than var.  var has full
+function scope which can lead to messy and confusing code.  let and const
+both have the more traditional block scope you see in language like Java and
+C/C++.
+
+never define anonymouse functions on one line.
+example:
+
+don't do this ->
+const myFunc = () => { do some stuff; };
+
+do this ->
+const myFunc = () => {
+    do some stuff;
+}
+
+
+defining getters and setters are an exception to this rule
+this is fine ->
+getStuff() { return this.stuff; },
+setStuff(stuff) { this.stuff = stuff } 
+
+
+
 PHP
 // write functional comments (ie listeners are here, etc.) to denote sections of related code.
 function verbNounName() {

@@ -29,11 +29,17 @@ $(document).ready(function() {
     // 
     $('#deleteSnippetButton').on('click', deleteSnippet);
 
-    $('#forgot-password-button').on('click', () => { $('#login').transitionTo($('#recoverPassword'));  });
+    $('#forgot-password-button').on('click', () => {
+        $('#login').transitionTo($('#recoverPassword'));
+    });
     
-    $('#back-to-login').on('click', () => { $('#recoverPassword').transitionTo($('#login')); });
+    $('#back-to-login').on('click', () => {
+        $('#recoverPassword').transitionTo($('#login'));
+    });
     
-    $('#loginModal').on('hidden.bs.modal', () => { $('#recoverPassword').transitionTo($('#login')); });
+    $('#loginModal').on('hidden.bs.modal', () => {
+        $('#recoverPassword').transitionTo($('#login'));
+    });
     
     $('#updateSnippetModal').on('show.bs.modal', updateSnippetForm);
     
@@ -96,13 +102,15 @@ $(document).ready(function() {
 // view functions
 // updates view for active snippet
 function updateActiveSnippet() {
-    var snippet = model.getSelectedSnippet();
-    var row = model.getSnippetRow();
+    let snippet = model.getSelectedSnippet();
+    let row = model.getSnippetRow();
+    
     $('#snippets-table tbody')
         .find('tr.selected')
         .removeClass('selected');
+        
     $(row.node()).addClass('selected');
-    var code = $('#snippet-frame')
+    let code = $('#snippet-frame')
         .find('code')
         .text(snippet.code);
         
@@ -130,19 +138,19 @@ function updateSnippetList() {
 
 // displays a user alert.  accepted types are primary, secondary, success, warning, danger, info, light, dark
 function userAlert(type, text) {
-    var alertMarkup = '<div id="alert" class="alert alert-dismissible fade show col-12" role="alert">\n' +
+    let alertMarkup = '<div id="alert" class="alert alert-dismissible fade show col-12" role="alert">\n' +
   				      '  <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
     			      '    <span aria-hidden="true">&times;</span>\n' +
   				      '  </button>\n' +
 				      '</div>';
-	var result = $(alertMarkup).addClass('alert-' + type).append(text);
+	let result = $(alertMarkup).addClass('alert-' + type).append(text);
     $('#user-alert-container').empty().append(result);
 }
 
 //checking if you are logged in changes view depending on whether or not the user is logged in or not.
 function updateLoginStatus() {
-    var currentOpenNavbar = $('#nav-content').find('div.navbar-nav:visible');
-    var nextOpenNavbar;
+    let currentOpenNavbar = $('#nav-content').find('div.navbar-nav:visible');
+    let nextOpenNavbar;
     if (!currentUsername) {
         nextOpenNavbar = $('#logged-out-nav');
     } else {
@@ -156,11 +164,11 @@ function updateLoginStatus() {
 
 //populate language drop down
 function updateLanguageList(){
-    var languageDropDown = $('#languageSelect').empty();
-    var languages = model.getLanguageList();
+    let languageDropDown = $('#languageSelect').empty();
+    let languages = model.getLanguageList();
     console.log(languages)
-    for(var i = 0; i < languages.length; i++){
-        var option = document.createElement('option');
+    for (let i = 0; i < languages.length; i++) {
+        let option = document.createElement('option');
         option.innerText = languages[i]['language_name'];
         option.setAttribute('language_id', languages[i]['id']);
         languageDropDown.append($(option));
@@ -207,13 +215,14 @@ function getLanguages() {
 }
 // user and password submit
 function registerUser(e) {
-    var target = $(e.target),
+    let target = $(e.target),
         name =            target.find('input[name="name"]'), 
         password =        target.find('input[name="password"]'),
         confirmPassword = target.find('input[name="confirmPassword"]'),
         securityAnswer1 = target.find('input[name="securityAnswer1"]'), 
         securityAnswer2 = target.find('input[name="securityAnswer2"]');
-    var formValid = name.get(0).checkValidity() && 
+        
+    let formValid = name.get(0).checkValidity() && 
                     password.get(0).checkValidity() && 
                     confirmPassword.get(0).checkValidity() &&
                     securityAnswer1.get(0).checkValidity() && 
@@ -251,10 +260,10 @@ function registerUser(e) {
 
 // login function 
 function loginUser(e){
-    var target = $(e.target),
+    let target = $(e.target),
         username =      target.find('input[name="name"]'),
         password =      target.find('input[name="password"]');
-    var formValid = username.get(0).checkValidity() &&
+    let formValid = username.get(0).checkValidity() &&
                     password.get(0).checkValidity();
     if (formValid) {
         e.preventDefault();
@@ -301,13 +310,14 @@ function logoutUser() {
 // function to recover password based on two security questions
 function recoverPassword(e){
     //e.target points to the DOM where input name is equal to the name of the modal form (ie. '#recoverPassword' form)
-    var target = $(e.target),
+    let target = $(e.target),
         securityAnswer1 =    target.find('input[name="securityAnswer1"]'), 
         securityAnswer2 =    target.find('input[name="securityAnswer2"]'),
         username =           target.find('input[name="name"]'),
         newPassword =        target.find('input[name="newPassword"]'),
         confirmNewPassword = target.find('input[name="verifyNewPassword"]'); 
-    var formValid = securityAnswer1.get(0).checkValidity() &&
+        
+    let formValid = securityAnswer1.get(0).checkValidity() &&
                     securityAnswer2.get(0).checkValidity() &&
                     username.get(0).checkValidity() &&
                     newPassword.get(0).checkValidity() &&
@@ -345,11 +355,12 @@ function recoverPassword(e){
 
 // new snippet creation submit
 function createSnippet(e) {
-    var target = $(e.target),
+    let target = $(e.target),
         snippetName =     target.find('input[name="snippetName"]'),
         language =        target.find('select'),
         snippetText =     target.find('textarea[name="snippetText"]');
-    var formValid = snippetName.get(0).checkValidity() && 
+        
+    let formValid = snippetName.get(0).checkValidity() && 
                     snippetText.get(0).checkValidity();
     if (formValid) {
         e.preventDefault();
@@ -384,10 +395,10 @@ function updateSnippet(e) {
     
     // $snippetID, $code, $username
     
-    var target = $(e.target),
+    let target = $(e.target),
         snippetName =     target.find('input[name="snippetName"]'), // THESE CHANGE (?)
         snippetText =     target.find('textarea[name="snippetText"]'); // THESE CHANGE (?)
-    var formValid = snippetName.get(0).checkValidity() && 
+    let formValid = snippetName.get(0).checkValidity() && 
                     snippetText.get(0).checkValidity();
     if (formValid) {
         e.preventDefault();
@@ -440,9 +451,10 @@ function deleteSnippet(e) {
 
 
 //Helper functions
-
 $.fn.extend({
     transitionTo(next) {
-       return this.fadeOut(167, () => { next.fadeIn(167); });
+       return this.fadeOut(167, () => {
+           next.fadeIn(167);
+       });
     },
 });
