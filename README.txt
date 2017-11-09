@@ -18,7 +18,7 @@ Release 2 - User Accounts (UA)
 [COMPLETE] UA5 - As an authenticated user, I want to be able to logout of my account.
 
 Release 3 - Snippet Management (SM)
-SM1 - As an authenticated user I want to be able to be able to create a new snippet and specify the snippet's language, description, and code.
-SM2 - As an authenticated user I want to be able to be able to select from a list of predefined languages when associating a language with a new snippet.
+[COMPLETE] SM1 - As an authenticated user I want to be able to be able to create a new snippet and specify the snippet's language, description, and code.
+[COMPLETE] SM2 - As an authenticated user I want to be able to be able to select from a list of predefined languages when associating a language with a new snippet.
 SM3 - As an authenticated user I want to be able to be able to delete or edit snippets that I have created.
 SM4 - As an authenticated user I want to be sure that other users cannot delete or edit snippets that I have created.
