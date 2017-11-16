@@ -115,6 +115,7 @@
         }
     }
     
+    //move to User object
     function recoverUser($conn, $response) {
         $user = verifyResetPasswordInputs($conn, $_POST[name], $_POST[newPassword], $_POST[verifyNewPassword], $_POST[securityAnswer1], $_POST[securityAnswer2]);
         $response = updateUser($conn, $user, $_POST[newPassword]);   
@@ -147,6 +148,7 @@
         return $response;
     }
     
+    // TK ITS RIGHT HERE
     // get documentation for snippets.php
     function showDocumentation($conn, $response) {
         $api_command_list = array();
@@ -237,6 +239,7 @@
     
 // Prepared statement functions
     
+    //Move to user controller
     function insertUser ($conn, $response, $user) {
         $stmt = $conn->prepare("INSERT INTO User_Data(Username, Password, SecurityAnswer1, SecurityAnswer2) VALUES(?, ?, ?, ?);");
         $stmt->bind_param("ssss", $user->getName(), $user->getPassword(), $user->getSecurityAnswer1(), $user->getSecurityAnswer2());
@@ -249,6 +252,7 @@
         return $response;
     }
     
+    // refactor to just return $user and move to user controller
     function findUser ($conn, $username) {
         $stmt = $conn->prepare("SELECT UserID, Username, Password, SecurityAnswer1, SecurityAnswer2 FROM User_Data WHERE Username = ?;");
         $stmt->bind_param("s", $username);
@@ -263,7 +267,8 @@
         
         return $response;
     }
-        
+    
+    // refactor to just return $creatorID and move to snippet_controller
     function findSnippetCreatorID ($conn, $snippetID){
         $stmt = $conn->prepare("SELECT CreatorID FROM Snippet_Data WHERE SnippetID = ?;");
         $stmt->bind_param("s", $snippetID);
@@ -277,7 +282,8 @@
         
         return $response;
     }    
-        
+    
+    // move to user controller
     function updateUser($conn, $user, $newPass) {
         $stmt = $conn->prepare("UPDATE User_Data SET Password = ? WHERE Username = ?;");
         $stmt->bind_param("ss", password_hash($newPass, PASSWORD_BCRYPT), $user->getName());
@@ -290,6 +296,7 @@
         return $response;
     }
     
+    //move to snippet controller
     function createSnippet($conn, $response) {
         $creatorID = findUser($conn, $_SESSION["username"])["user"]->getID();
         $languageID = $_POST[language];
@@ -309,6 +316,7 @@
         return $response;
     }
     
+    //move to snippet controller
     function updateSnippet($conn, $response) {
         $user = findUser($conn, $_SESSION["username"])["user"];
         $snippetID = $_POST["snippet_id"];
@@ -327,6 +335,7 @@
         }
     }
     
+    //move to snippet controller
     function deleteSnippet($conn, $response){
         $user = findUser($conn, $_SESSION["username"])["user"];
         $snippetID = $_POST["snippet_id"];

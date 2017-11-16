@@ -27,71 +27,53 @@ $(document).ready(function() {
     });
     
     // 
+    
     $('#deleteSnippetButton').on('click', deleteSnippet);
-
+    
+    $('#updateSnippetModal').on('show.bs.modal', updateSnippetForm);
+    
     $('#forgot-password-button').on('click', () => { $('#login').transitionTo($('#recoverPassword'));  });
     
     $('#back-to-login').on('click', () => { $('#recoverPassword').transitionTo($('#login')); });
     
     $('#loginModal').on('hidden.bs.modal', () => { $('#recoverPassword').transitionTo($('#login')); });
     
-    $('#updateSnippetModal').on('show.bs.modal', updateSnippetForm);
+    
     
     // click event listeners on modal submit buttons
     // these each trigger a click event on a hidden submit button in their respective forms
     
-    $('#login-submit').on('click', function(e) {
-        $('#loginUserHidden').click();
-    });
+     $('#login-submit').on('click', () => { $('#loginUserHidden').click(); });
+     
+     $('#register-submit').on('click', () => { $('#registerUserHidden').click(); });
+     
+     $('#update-snippet-submit').on('click', () => { $('#updateSnippetHidden').click(); });
     
-    $('#register-submit').on('click', function(e) {
-       $('#registerUserHidden').click(); 
-    });
+     $('#recover-submit').on('click', () => { $('#recoverPasswordHidden').click(); });
+     
+     $('#snippet-submit').on('click', () => { $('#submitSnippetHidden').click(); });
     
-    $('#update-snippet-submit').on('click', function(e) {
-        $('#updateSnippetHidden').click();
-    });
-    
-    $('#recover-submit').on('click', function(e) {
-        $('#recoverPasswordHidden').click();
-    });
-    //
-     $('#snippet-submit').on('click', function(e) {
-        $('#submitSnippetHidden').click();
-    });
     
     // listen for form submit events
-    $('form#loginUserForm').on('submit', function(e) {
-        loginUser(e); 
-    });
+    $('form#loginUserForm').on('submit', loginUser);
     
-    $('form#updateSnippetForm').on('submit', function(e) {
-        updateSnippet(e);   
-    });
+    $('form#updateSnippetForm').on('submit', updateSnippet);
     
-    $('form#registerUserForm').on('submit', function(e) {
-        registerUser(e);   
-    });
+    $('form#registerUserForm').on('submit', registerUser);
     
-    $('form#recoverPasswordForm').on('submit', function(e) {
-        recoverPassword(e); 
-    });
+    $('form#recoverPasswordForm').on('submit', recoverPassword);
     
-    $('form#snippetEntryForm').on('submit', function(e) {
-        createSnippet(e);
-    });
+    $('form#snippetEntryForm').on('submit', createSnippet);
     
     //change this when html team adds button
-    $('#logout-button').on('click', function(e) {
-        logoutUser();
-    });
+    $('#logout-button').on('click', logoutUser);
     
     // make initial ajax calls
     getSnippets();
     getUserSession();
     getLanguages();
+    Prism.highlightElement($('#snippet-frame').find('code')[0]);
 }); 
-
 
 // view functions
 // updates view for active snippet
@@ -104,8 +86,12 @@ function updateActiveSnippet() {
     $(row.node()).addClass('selected');
     var code = $('#snippet-frame')
         .find('code')
-        .text(snippet.code);
-        
+        .text(snippet.code)
+        .removeClass()
+        .addClass('language-' + snippet.language);
+    // reruns the highlighting engine on the new snippet
+    Prism.highlightElement(code[0]);
+    
     if (snippet.creator == currentUsername) {
         $('#snippet-owner-controls').fadeIn(167);
     } else {
@@ -385,8 +371,8 @@ function updateSnippet(e) {
     // $snippetID, $code, $username
     
     var target = $(e.target),
-        snippetName =     target.find('input[name="snippetName"]'), // THESE CHANGE (?)
-        snippetText =     target.find('textarea[name="snippetText"]'); // THESE CHANGE (?)
+        snippetName =     target.find('input[name="snippetName"]'),
+        snippetText =     target.find('textarea[name="snippetText"]'); 
     var formValid = snippetName.get(0).checkValidity() && 
                     snippetText.get(0).checkValidity();
     if (formValid) {
