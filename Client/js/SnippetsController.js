@@ -4,7 +4,7 @@ const getUrl = window.location;
 const baseUrl = getUrl.protocol + '//' + getUrl.host + '/';
 const SnippetsUrl = baseUrl + 'Server/php/commands.php';
 const model = new SnippetsModel();
-let currentUsername;
+let currentUser;
 
 // 
 $(document).ready(function() {
@@ -32,9 +32,9 @@ $(document).ready(function() {
     
     $('#updateSnippetModal').on('show.bs.modal', updateSnippetForm);
     
-    $('#forgot-password-button').on('click', () => { $('#login').transitionTo($('#recoverPassword'));  });
+    $('#forgot-password-button').on('click', () => { $('#login').transitionTo($('#recoverPassword'));   });
     
-    $('#back-to-login').on('click', () => { $('#recoverPassword').transitionTo($('#login')); });
+    $('#back-to-login').on('click', () => { $('#recoverPassword').transitionTo($('#login'));    });
     
     $('#loginModal').on('hidden.bs.modal', () => { $('#recoverPassword').transitionTo($('#login')); });
     
@@ -78,13 +78,15 @@ $(document).ready(function() {
 // view functions
 // updates view for active snippet
 function updateActiveSnippet() {
-    var snippet = model.getSelectedSnippet();
-    var row = model.getSnippetRow();
+    let snippet = model.getSelectedSnippet();
+    let row = model.getSnippetRow();
+    
     $('#snippets-table tbody')
         .find('tr.selected')
         .removeClass('selected');
+        
     $(row.node()).addClass('selected');
-    var code = $('#snippet-frame')
+    let code = $('#snippet-frame')
         .find('code')
         .text(snippet.code)
         .removeClass()
@@ -92,7 +94,7 @@ function updateActiveSnippet() {
     // reruns the highlighting engine on the new snippet
     Prism.highlightElement(code[0]);
     
-    if (snippet.creator == currentUsername) {
+    if (snippet.creator == currentUser) {
         $('#snippet-owner-controls').fadeIn(167);
     } else {
         $('#snippet-owner-controls').fadeOut(167);
@@ -116,23 +118,23 @@ function updateSnippetList() {
 
 // displays a user alert.  accepted types are primary, secondary, success, warning, danger, info, light, dark
 function userAlert(type, text) {
-    var alertMarkup = '<div id="alert" class="alert alert-dismissible fade show col-12" role="alert">\n' +
+    let alertMarkup = '<div id="alert" class="alert alert-dismissible fade show col-12" role="alert">\n' +
   				      '  <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
     			      '    <span aria-hidden="true">&times;</span>\n' +
   				      '  </button>\n' +
 				      '</div>';
-	var result = $(alertMarkup).addClass('alert-' + type).append(text);
+	let result = $(alertMarkup).addClass('alert-' + type).append(text);
     $('#user-alert-container').empty().append(result);
 }
 
 //checking if you are logged in changes view depending on whether or not the user is logged in or not.
 function updateLoginStatus() {
-    var currentOpenNavbar = $('#nav-content').find('div.navbar-nav:visible');
-    var nextOpenNavbar;
-    if (!currentUsername) {
+    let currentOpenNavbar = $('#nav-content').find('div.navbar-nav:visible');
+    let nextOpenNavbar;
+    if (!currentUser) {
         nextOpenNavbar = $('#logged-out-nav');
     } else {
-        $('#login-indicator').text(currentUsername);
+        $('#login-indicator').text(currentUser);
         nextOpenNavbar = $('#logged-in-nav');
     }
     if (currentOpenNavbar.attr('id') != nextOpenNavbar.attr('id')){
@@ -142,11 +144,11 @@ function updateLoginStatus() {
 
 //populate language drop down
 function updateLanguageList(){
-    var languageDropDown = $('#languageSelect').empty();
-    var languages = model.getLanguageList();
+    let languageDropDown = $('#languageSelect').empty();
+    let languages = model.getLanguageList();
     console.log(languages)
-    for(var i = 0; i < languages.length; i++){
-        var option = document.createElement('option');
+    for (let i = 0; i < languages.length; i++) {
+        let option = document.createElement('option');
         option.innerText = languages[i]['language_name'];
         option.setAttribute('language_id', languages[i]['id']);
         languageDropDown.append($(option));
@@ -178,7 +180,7 @@ function getSnippets() {
 function getUserSession() {
     let url = SnippetsUrl + '?cmd=get_user_session';
     $.get(url, function(response) {
-        currentUsername = response.username
+        currentUser = response.email
         updateLoginStatus();
     });
 }
@@ -193,13 +195,14 @@ function getLanguages() {
 }
 // user and password submit
 function registerUser(e) {
-    var target = $(e.target),
-        name =            target.find('input[name="name"]'), 
+    let target = $(e.target),
+        email =           target.find('input[name="email"]'), 
         password =        target.find('input[name="password"]'),
         confirmPassword = target.find('input[name="confirmPassword"]'),
         securityAnswer1 = target.find('input[name="securityAnswer1"]'), 
         securityAnswer2 = target.find('input[name="securityAnswer2"]');
-    var formValid = name.get(0).checkValidity() && 
+        
+    let formValid = email.get(0).checkValidity() && 
                     password.get(0).checkValidity() && 
                     confirmPassword.get(0).checkValidity() &&
                     securityAnswer1.get(0).checkValidity() && 
@@ -208,7 +211,7 @@ function registerUser(e) {
         e.preventDefault();
         let url = SnippetsUrl + '?cmd=create_user';
         $.post(url, {
-            name: name.val(),
+            email: email.val(),
             password: password.val(),
             confirmPassword: confirmPassword.val(),
             securityAnswer1: securityAnswer1.val(),
@@ -225,7 +228,7 @@ function registerUser(e) {
             userAlert('danger', 'Snippet Bad! The server monkeys left a wrench in the code.');
         })
         .always(function(data) {
-            name.val('');
+            email.val('');
             password.val('');
             confirmPassword.val('');
             securityAnswer1.val('');
@@ -237,21 +240,21 @@ function registerUser(e) {
 
 // login function 
 function loginUser(e){
-    var target = $(e.target),
-        username =      target.find('input[name="name"]'),
+    let target = $(e.target),
+        email =      target.find('input[name="email"]'),
         password =      target.find('input[name="password"]');
-    var formValid = username.get(0).checkValidity() &&
+    let formValid = email.get(0).checkValidity() &&
                     password.get(0).checkValidity();
     if (formValid) {
         e.preventDefault();
         let url = SnippetsUrl + '?cmd=login_user';
         $.post(url, {
-            name: username.val(),
+            email: email.val(),
             password: password.val(),
         }).done(function(response) {
             if (response.status === 'OK') {
                 userAlert('success', 'Logged in successfully.');
-                currentUsername = response.username;
+                currentUser = response.email;
                 updateLoginStatus();
             } else {
                 userAlert('danger', response.errmsg);
@@ -260,7 +263,7 @@ function loginUser(e){
             userAlert('danger', 'Snippet Bad! The server monkeys left a wrench in the code.');
            
         }).always(function(response) {
-            username.val('');
+            email.val('');
             password.val('');
             $('#loginModal').modal('hide');
         });
@@ -273,7 +276,7 @@ function logoutUser() {
     $.get(url)
     .done(function(){
         userAlert('success', 'User logged out!');
-        currentUsername = null;
+        currentUser = null;
         updateLoginStatus();
     })
     .fail(function(){
@@ -287,15 +290,16 @@ function logoutUser() {
 // function to recover password based on two security questions
 function recoverPassword(e){
     //e.target points to the DOM where input name is equal to the name of the modal form (ie. '#recoverPassword' form)
-    var target = $(e.target),
+    let target = $(e.target),
         securityAnswer1 =    target.find('input[name="securityAnswer1"]'), 
         securityAnswer2 =    target.find('input[name="securityAnswer2"]'),
-        username =           target.find('input[name="name"]'),
+        email =              target.find('input[name="email"]'),
         newPassword =        target.find('input[name="newPassword"]'),
         confirmNewPassword = target.find('input[name="verifyNewPassword"]'); 
-    var formValid = securityAnswer1.get(0).checkValidity() &&
+        
+    let formValid = securityAnswer1.get(0).checkValidity() &&
                     securityAnswer2.get(0).checkValidity() &&
-                    username.get(0).checkValidity() &&
+                    email.get(0).checkValidity() &&
                     newPassword.get(0).checkValidity() &&
                     confirmNewPassword.get(0).checkValidity();
     if (formValid) {
@@ -304,7 +308,7 @@ function recoverPassword(e){
         $.post(url, {
             securityAnswer1: securityAnswer1.val(),
             securityAnswer2: securityAnswer2.val(),
-            name: username.val(),
+            email: email.val(),
             newPassword: newPassword.val(),
             verifyNewPassword: confirmNewPassword.val(),
         })
@@ -321,7 +325,7 @@ function recoverPassword(e){
         .always(function(response) {
             securityAnswer1.val(''); // reset form
             securityAnswer2.val('');
-            username.val('');
+            email.val('');
             newPassword.val('');
             confirmNewPassword.val('');
             $('#loginModal').modal('hide');
@@ -331,11 +335,12 @@ function recoverPassword(e){
 
 // new snippet creation submit
 function createSnippet(e) {
-    var target = $(e.target),
+    let target = $(e.target),
         snippetName =     target.find('input[name="snippetName"]'),
         language =        target.find('select'),
         snippetText =     target.find('textarea[name="snippetText"]');
-    var formValid = snippetName.get(0).checkValidity() && 
+        
+    let formValid = snippetName.get(0).checkValidity() && 
                     snippetText.get(0).checkValidity();
     if (formValid) {
         e.preventDefault();
@@ -370,16 +375,16 @@ function updateSnippet(e) {
     
     // $snippetID, $code, $username
     
-    var target = $(e.target),
-        snippetName =     target.find('input[name="snippetName"]'),
-        snippetText =     target.find('textarea[name="snippetText"]'); 
-    var formValid = snippetName.get(0).checkValidity() && 
+    let target = $(e.target),
+        snippetName =     target.find('input[name="snippetName"]'), // THESE CHANGE (?)
+        snippetText =     target.find('textarea[name="snippetText"]'); // THESE CHANGE (?)
+    let formValid = snippetName.get(0).checkValidity() && 
                     snippetText.get(0).checkValidity();
     if (formValid) {
         e.preventDefault();
         let url = SnippetsUrl + '?cmd=update_snippet';
         $.post(url, {
-            snippet_id: model.getSelectedSnippet().id,
+            snippetID: model.getSelectedSnippet().id,
             snippetName: snippetName.val(),
             snippetText: snippetText.val(),
         })
@@ -408,7 +413,7 @@ function deleteSnippet(e) {
     let url = SnippetsUrl + '?cmd=delete_snippet';
     let selectedSnippetID = model.getSelectedSnippet().id;
     $.post(url, {
-        snippet_id: selectedSnippetID,
+        snippetID: selectedSnippetID,
     })
     .done(function(data) {
         if (data.status === "OK") {
@@ -426,9 +431,10 @@ function deleteSnippet(e) {
 
 
 //Helper functions
-
 $.fn.extend({
     transitionTo(next) {
-       return this.fadeOut(167, () => { next.fadeIn(167); });
+       return this.fadeOut(167, () => {
+           next.fadeIn(167);
+       });
     },
 });

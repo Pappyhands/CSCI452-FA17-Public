@@ -71,13 +71,13 @@
     
     // get all snippets in the database
     function listAll($conn, $response) {
-        $stmt = "SELECT CreatorID, Username, Snippet_Data.LanguageID, LanguageName, SnippetID, Description, Code FROM Snippet_Data INNER JOIN User_Data ON Snippet_Data.CreatorID = User_Data.UserID INNER JOIN Language_Data ON Snippet_Data.LanguageID = Language_Data.LanguageID;";
+        $stmt = "SELECT CreatorID, Email, Snippet_Data.LanguageID, LanguageName, SnippetID, Description, Code FROM Snippet_Data INNER JOIN User_Data ON Snippet_Data.CreatorID = User_Data.UserID INNER JOIN Language_Data ON Snippet_Data.LanguageID = Language_Data.LanguageID;";
         $result = mysqli_query($conn, $stmt);
         $snippet = array();
         $snippets = array();
         while ($row = mysqli_fetch_assoc($result)) {
             $snippet["id"] = $row["SnippetID"];
-            $snippet["creator"] = $row["Username"];
+            $snippet["creator"] = $row["Email"];
             $snippet["description"] = $row["Description"];
             $snippet["language"] = $row["LanguageName"];
             $snippet["code"] = $row["Code"];
@@ -96,7 +96,7 @@
         $language = array();
         $languages = array();
         while ($row = mysqli_fetch_assoc($result)) {
-            $language["id"] = $row["LanguageID"];
+            $language["id"] = $row["LanguageID"]; 
             $language["language_name"] = $row["LanguageName"];
             array_push($languages, $language);
         }
@@ -108,8 +108,8 @@
     }
     
     function createUser($conn, $response) {
-        if (verifyCreateUserInputs($conn, $_POST[name], $_POST[password], $_POST[confirmPassword])) {
-            $user = new UserObject(null, $_POST[name], password_hash($_POST[password], PASSWORD_BCRYPT), password_hash($_POST[securityAnswer1], PASSWORD_BCRYPT), password_hash($_POST[securityAnswer2], PASSWORD_BCRYPT));
+        if (verifyCreateUserInputs($conn, $_POST[email], $_POST[password], $_POST[confirmPassword])) {
+            $user = new UserObject(null, $_POST[email], password_hash($_POST[password], PASSWORD_BCRYPT), password_hash($_POST[securityAnswer1], PASSWORD_BCRYPT), password_hash($_POST[securityAnswer2], PASSWORD_BCRYPT));
             $response = insertUser($conn, $response, $user);
             return $response;
         }
@@ -117,23 +117,23 @@
     
     //move to User object
     function recoverUser($conn, $response) {
-        $user = verifyResetPasswordInputs($conn, $_POST[name], $_POST[newPassword], $_POST[verifyNewPassword], $_POST[securityAnswer1], $_POST[securityAnswer2]);
+        $user = verifyResetPasswordInputs($conn, $_POST[email], $_POST[newPassword], $_POST[verifyNewPassword], $_POST[securityAnswer1], $_POST[securityAnswer2]);
         $response = updateUser($conn, $user, $_POST[newPassword]);   
         return $response;
     }
     
     function loginUser($conn, $response) {
-        $user = verifyLoginUserInputs($conn, $_POST[name], $_POST[password]);
+        $user = verifyLoginUserInputs($conn, $_POST[email], $_POST[password]);
         session_start();
-        $_SESSION["username"] = $user->getName();
-        $response["username"] = $user->getName();
+        $_SESSION["email"] = $user->getEmail();
+        $response["email"] = $user->getEmail();
         
         return $response;
     }
     
     function getUserSession($conn, $response) {
-        if (isset($_SESSION["username"])) {
-            $response["username"] = $_SESSION["username"];
+        if (isset($_SESSION["email"])) {
+            $response["email"] = $_SESSION["email"];
         } else {
             throw new Exception("No user is logged in.");
         }
@@ -142,7 +142,7 @@
    
     // This function allows the user to log out. 
     function endUserSession($conn, $response){
-        $response["username"] = $_SESSION["username"];
+        $response["email"] = $_SESSION["email"];
         session_destroy();//native to php
       
         return $response;
@@ -175,14 +175,14 @@
     
 // Verify inputs
     
-    function verifyCreateUserInputs($conn, $username, $password, $confirmPassword) {
+    function verifyCreateUserInputs($conn, $email, $password, $confirmPassword) {
         // preg_match matches a regular expression (regex) against a string. In this case, make sure the password is good.
         // Returns 1 if the string passes, 0 if not, and false if an error occurs.
         
         // checks to see if the user already exist. 10/22/17
-        $findUserResponse = findUser($conn, $username);
-        if ($findUserResponse["user"]->getName() != null) {
-            throw new Exception("A user with that name already exists");
+        $findUserResponse = findUser($conn, $email);
+        if ($findUserResponse["user"]->getEmail() != null) {
+            throw new Exception("A user with that email already exists");
         }
         if (preg_match("/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.{8,})/", $password) != 1) {
             throw new Exception("Password not secure enough. Have at least 8 characters, composing of at least 1 upper and lowercase character, 1 number and 1 symbol.");
@@ -195,13 +195,13 @@
         return true;
     }
     
-    function verifyResetPasswordInputs($conn, $username, $resetPass, $resetPassConfirm, $answer1, $answer2) {
+    function verifyResetPasswordInputs($conn, $email, $resetPass, $resetPassConfirm, $answer1, $answer2) {
         $user = null; // Will only be set if findUser finds a user.
-        $findUserResponse = findUser($conn, $username);
-        if ($findUserResponse["user"]->getName() != null) {
+        $findUserResponse = findUser($conn, $email);
+        if ($findUserResponse["user"]->getEmail() != null) {
             $user = $findUserResponse["user"];
         } else {
-            throw new Exception("A user with that name wasn't found.");
+            throw new Exception("A user with that email wasn't found.");
         }
         if ($resetPass != $resetPassConfirm) {
             throw new Exception("Passwords don't match.");
@@ -220,13 +220,13 @@
         return $user;
     }
     
-    function verifyLoginUserInputs($conn, $username, $password) {
+    function verifyLoginUserInputs($conn, $email, $password) {
         $user = null; // Will only be set if findUser finds a user.
-        $findUserResponse = findUser($conn, $username);
-        if ($findUserResponse["user"]->getName() != null) {
+        $findUserResponse = findUser($conn, $email);
+        if ($findUserResponse["user"]->getEmail() != null) {
             $user = $findUserResponse["user"];
         } else {
-            throw new Exception("A user with that name wasn't found.");
+            throw new Exception("A user with that email wasn't found.");
         }
         if (!password_verify($password, $user->getPassword())) {
             throw new Exception("This is not the correct password.");
@@ -241,25 +241,25 @@
     
     //Move to user controller
     function insertUser ($conn, $response, $user) {
-        $stmt = $conn->prepare("INSERT INTO User_Data(Username, Password, SecurityAnswer1, SecurityAnswer2) VALUES(?, ?, ?, ?);");
-        $stmt->bind_param("ssss", $user->getName(), $user->getPassword(), $user->getSecurityAnswer1(), $user->getSecurityAnswer2());
+        $stmt = $conn->prepare("INSERT INTO User_Data(Email, Password, SecurityAnswer1, SecurityAnswer2) VALUES(?, ?, ?, ?);");
+        $stmt->bind_param("ssss", $user->getEmail(), $user->getPassword(), $user->getSecurityAnswer1(), $user->getSecurityAnswer2());
         $stmt->execute();
         $stmt->close();
         
-        $response["username"] = $user->getName();
+        $response["email"] = $user->getEmail();
         $response["status"] = "OK";
         
         return $response;
     }
     
     // refactor to just return $user and move to user controller
-    function findUser ($conn, $username) {
-        $stmt = $conn->prepare("SELECT UserID, Username, Password, SecurityAnswer1, SecurityAnswer2 FROM User_Data WHERE Username = ?;");
-        $stmt->bind_param("s", $username);
+    function findUser ($conn, $email) {
+        $stmt = $conn->prepare("SELECT UserID, Email, Password, SecurityAnswer1, SecurityAnswer2 FROM User_Data WHERE Email = ?;");
+        $stmt->bind_param("s", $email);
         $stmt->execute();
-        $stmt->bind_result($id, $name, $pass, $answer1, $answer2);
+        $stmt->bind_result($id, $verifiedEmail, $pass, $answer1, $answer2);
         $stmt->fetch();
-        $user = new UserObject($id, $name, $pass, $answer1, $answer2);
+        $user = new UserObject($id, $verifiedEmail, $pass, $answer1, $answer2);
         $stmt->close();
         
         $response["user"] = $user;
@@ -285,12 +285,12 @@
     
     // move to user controller
     function updateUser($conn, $user, $newPass) {
-        $stmt = $conn->prepare("UPDATE User_Data SET Password = ? WHERE Username = ?;");
-        $stmt->bind_param("ss", password_hash($newPass, PASSWORD_BCRYPT), $user->getName());
+        $stmt = $conn->prepare("UPDATE User_Data SET Password = ? WHERE Email = ?;");
+        $stmt->bind_param("ss", password_hash($newPass, PASSWORD_BCRYPT), $user->getEmail());
         $stmt->execute();
         $stmt->close();
 
-        $response["user"] = $user->getName();
+        $response["user"] = $user->getEmail();
         $response["status"] = "OK";
         
         return $response;
@@ -298,7 +298,7 @@
     
     //move to snippet controller
     function createSnippet($conn, $response) {
-        $creatorID = findUser($conn, $_SESSION["username"])["user"]->getID();
+        $creatorID = findUser($conn, $_SESSION["email"])["user"]->getID();
         $languageID = $_POST[language];
         $description = $_POST[snippetName];
         $code = $_POST[snippetText];
@@ -318,8 +318,8 @@
     
     //move to snippet controller
     function updateSnippet($conn, $response) {
-        $user = findUser($conn, $_SESSION["username"])["user"];
-        $snippetID = $_POST["snippet_id"];
+        $user = findUser($conn, $_SESSION["email"])["user"];
+        $snippetID = $_POST["snippetID"];
         if($user->getID() == findSnippetCreatorID($conn, $snippetID)["creatorID"]){
             $stmt = $conn->prepare("UPDATE Snippet_Data SET Code = ?, Description = ? WHERE SnippetID = ?;");
             $stmt->bind_param("ssi", $_POST["snippetText"], $_POST["snippetName"], $snippetID);
@@ -337,8 +337,8 @@
     
     //move to snippet controller
     function deleteSnippet($conn, $response){
-        $user = findUser($conn, $_SESSION["username"])["user"];
-        $snippetID = $_POST["snippet_id"];
+        $user = findUser($conn, $_SESSION["email"])["user"];
+        $snippetID = $_POST["snippetID"];
         
         if($user->getID() == findSnippetCreatorID($conn, $snippetID)["creatorID"]){
              $stmt = $conn->prepare("DELETE FROM Snippet_Data WHERE SnippetID = ?");
