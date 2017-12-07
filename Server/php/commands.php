@@ -7,17 +7,17 @@
     
     session_start();
     
-    // Create connection
+    // create connection
     $conn = dbConnection();
     
-    // Check connection
+    // check connection
     if ($conn->connect_error){
         
         die("Connection failed: " . $conn->connect_error);
         
     } 
     
-    // Definition for init_response() function is in functions.php
+    // definition for init_response() function is in functions.php
     $response = initResponse();
     
     $cmd = getValue("cmd", "docs");
@@ -45,16 +45,16 @@
             case "logout_user":
                 $response = endUserSession($conn, $response);
                 break;
-            case "create_snippet";
+            case "create_snippet":
                 $response = createSnippet($conn, $response);
                 break;
-            case "update_snippet";
+            case "update_snippet":
                 $response = updateSnippet($conn, $response);
                 break;
-            case "delete_snippet";
+            case "delete_snippet":
                 $response = deleteSnippet($conn, $response);
                 break;
-            case "list_languages";
+            case "list_languages":
                 $response = listLanguages($conn, $response);
                 break;
             default:
@@ -111,11 +111,13 @@
         if (verifyCreateUserInputs($conn, $_POST[email], $_POST[password], $_POST[confirmPassword])) {
             $user = new UserObject(null, $_POST[email], password_hash($_POST[password], PASSWORD_BCRYPT), password_hash($_POST[securityAnswer1], PASSWORD_BCRYPT), password_hash($_POST[securityAnswer2], PASSWORD_BCRYPT));
             $response = insertUser($conn, $response, $user);
+            session_start();
+            $_SESSION["email"] = $user->getEmail();
             return $response;
         }
     }
     
-    //move to User object
+    // move to User object
     function recoverUser($conn, $response) {
         $user = verifyResetPasswordInputs($conn, $_POST[email], $_POST[newPassword], $_POST[verifyNewPassword], $_POST[securityAnswer1], $_POST[securityAnswer2]);
         $response = updateUser($conn, $user, $_POST[newPassword]);   
@@ -140,7 +142,7 @@
         return $response;
     }
    
-    // This function allows the user to log out. 
+    // allows the user to log out
     function endUserSession($conn, $response){
         $response["email"] = $_SESSION["email"];
         session_destroy();//native to php
@@ -173,7 +175,7 @@
         return $response;
     }
     
-// Verify inputs
+// verify inputs
     
     function verifyCreateUserInputs($conn, $email, $password, $confirmPassword) {
         // preg_match matches a regular expression (regex) against a string. In this case, make sure the password is good.
@@ -237,9 +239,9 @@
      
     
     
-// Prepared statement functions
+// prepared statement functions
     
-    //Move to user controller
+    // move to user controller
     function insertUser ($conn, $response, $user) {
         $stmt = $conn->prepare("INSERT INTO User_Data(Email, Password, SecurityAnswer1, SecurityAnswer2) VALUES(?, ?, ?, ?);");
         $stmt->bind_param("ssss", $user->getEmail(), $user->getPassword(), $user->getSecurityAnswer1(), $user->getSecurityAnswer2());
@@ -296,7 +298,7 @@
         return $response;
     }
     
-    //move to snippet controller
+    // move to snippet controller
     function createSnippet($conn, $response) {
         $creatorID = findUser($conn, $_SESSION["email"])["user"]->getID();
         $languageID = $_POST[language];
@@ -316,7 +318,7 @@
         return $response;
     }
     
-    //move to snippet controller
+    // move to snippet controller
     function updateSnippet($conn, $response) {
         $user = findUser($conn, $_SESSION["email"])["user"];
         $snippetID = $_POST["snippetID"];
@@ -335,7 +337,7 @@
         }
     }
     
-    //move to snippet controller
+    // move to snippet controller
     function deleteSnippet($conn, $response){
         $user = findUser($conn, $_SESSION["email"])["user"];
         $snippetID = $_POST["snippetID"];

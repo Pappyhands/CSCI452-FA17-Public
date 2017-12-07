@@ -26,12 +26,13 @@ $(document).ready(function() {
         updateActiveSnippet();
     });
     
-    // 
-    
+    // delete snippet button (only seen on active snippet)
     $('#deleteSnippetButton').on('click', deleteSnippet);
     
+    // update snippet button (only seen on active snippet)
     $('#updateSnippetModal').on('show.bs.modal', updateSnippetForm);
     
+    // l    
     $('#forgot-password-button').on('click', () => { $('#login').transitionTo($('#recoverPassword'));   });
     
     $('#back-to-login').on('click', () => { $('#recoverPassword').transitionTo($('#login'));    });
@@ -220,6 +221,8 @@ function registerUser(e) {
         .done(function(data) {
             if (data.status === "OK") {
                 userAlert('success', 'User successfully registered.  Welcome!');
+                currentUser = email.val();
+                updateLoginStatus();
             } else {
                 userAlert('danger',  data.errmsg);
             }
@@ -412,6 +415,8 @@ function deleteSnippet(e) {
     e.preventDefault();
     let url = SnippetsUrl + '?cmd=delete_snippet';
     let selectedSnippetID = model.getSelectedSnippet().id;
+    if (confirm("Are you sure you want to delete this?")){
+        
     $.post(url, {
         snippetID: selectedSnippetID,
     })
@@ -427,6 +432,7 @@ function deleteSnippet(e) {
     .fail(function(data) {
         userAlert('danger', 'Snippet Bad! The server monkeys left a wrench in the code.');
     })
+    }
 }
 
 

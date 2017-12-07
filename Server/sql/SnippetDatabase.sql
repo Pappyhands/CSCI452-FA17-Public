@@ -11,7 +11,8 @@ SecurityAnswer2 VARCHAR(64) NOT NULL
 
 CREATE TABLE Language_Data(
 LanguageID BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-LanguageName VARCHAR(32)
+LanguageName VARCHAR(32),
+Language_Code VARCHAR(32)
 );
 
 CREATE TABLE Snippet_Data(
