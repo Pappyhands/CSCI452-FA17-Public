@@ -38,11 +38,12 @@
 #page-content-wrapper {
     background-color: transparent;
     max-width: 1200px;
-    margin-top: 59px;
+    padding-top: 59px;
+    height: 100%;
 }
 
 #page-content {
-    margin-top: 55px;
+    /*margin-top: 55px;*/
     padding-top: 15px;
     background-color: #ddd;
     height: 100%;

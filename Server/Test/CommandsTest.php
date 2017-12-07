@@ -110,6 +110,26 @@ function loginUserTest($conn, $testData) {
     return $testData;
 }
 
+function deleteSnippetTest($conn, $testData){
+    
+}
+
+function updateSnippetTest($conn, $testData){
+    /*
+    Insert hardcoded snipppet
+    change it
+    check to see if change was made to inserted snippet
+    */
+    
+   /* $response = initResponse();
+    $_POST["snippetID"] = $testData["testSnippetID"];
+    $_POST["code"] = $testData["code"];
+    
+    $response = updateSnippet($conn, $response);
+    
+    if ($response)*/
+}
+
 
 function executeTests() {
     echo "Beginning Tests\n";
