@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" type="text/css" />
 	<link rel="stylesheet" href="/Client/css/main.css" type="text/css" />
+	<link rel="stylesheet" href="/Client/css/prism.css" type="text/css" />
 	<title>Snippet Good</title>
 </head>
 
@@ -35,7 +36,7 @@
 				</div>
 			</div>
 		</nav>
-	</div>\
+	</div>
 	
 <!-- Page Content -->
     <div id="page-content-wrapper" class="container-fluid">
@@ -50,8 +51,8 @@
 
 				<!-- Snippet view -->
 				<div id="snippet-container" class="col-12 col-md-8 col-xl-6">
-					<pre id="snippet-frame">
-<code>/*
+					<pre id="snippet-frame" class="line-numbers">
+<code class="language-javascript">/*
 	Welcome to SnippetGood
 	Click on a row on the snippet table to see the snippet code.
 	Have Fun!
@@ -133,9 +134,9 @@
 				</div>
 				<div class="modal-body">
 					<form id="registerUserForm">
-						<label><b>Username</b></label>
+						<label><b>Email</b></label>
 						<br/>
-						<input type="text" placeholder="Enter Username" name="name" required>
+						<input type="text" placeholder="Enter Email" name="email" required>
 						<br/>
 						<label><b>Password</b></label>
 						<br/>
@@ -173,16 +174,16 @@
 				<!-- User Login Modal Content -->
 				<!-- Swaps out with the Recover Password modal content -->
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Create an account</h5>
+					<h5 class="modal-title" id="exampleModalLabel">Login</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
 					<form id="loginUserForm">
-						<label><b>Username</b></label>
+						<label><b>Email</b></label>
 						<br/>
-						<input type="text" placeholder="Enter Username" name="name" required>
+						<input type="text" placeholder="Enter Email" name="email" required>
 						<br/>
 						<label><b>Password</b></label>
 						<br/>
@@ -211,7 +212,7 @@
 					<form id="recoverPasswordForm">
 						<label><b>Username</b></label>
 						<br/>
-						<input type="text" placeholder="Username" name="name" required>
+						<input type="text" placeholder="Username" name="email" required>
 						<br/>
 						<label><b>What city were you born in?</b></label>
 						<br/>
@@ -231,7 +232,6 @@
 						<br/>
 						<input type="password" placeholder="Confirm Password" name="verifyNewPassword" required>
 						<input type="submit" id="recoverPasswordHidden">
-
 					</form>
 				</div> 
 				<div class="modal-footer">
@@ -279,6 +279,7 @@
 
 			Bootstrap 4.0.0 beta (latest version, upgraded from the version Mark started us with)
 			Datatables.js for our snippets table
+			Prism.js for our code coloring & line numbers
 			SnippetsModel, the model for our page's MVC
 			SnippetsController, the controller for our page's MVC
 	-->
@@ -286,6 +287,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 	<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+	<script src="/Client/js/prism.js"></script>
 	<script src="/Client/js/SnippetsModel.js"></script>
 	<script src="/Client/js/SnippetsController.js"></script>
 </body>

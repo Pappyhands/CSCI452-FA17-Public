@@ -2,25 +2,24 @@
     class UserObject {
         
         private $user_id = null;
-        private $user_name = null;
         private $user_password = null;
         private $security_answer1 = null;
         private $security_answer2 = null;
+        private $email = null;
         
-        public function __construct($id, $name, $pass, $answer1, $answer2) {
+        public function __construct($id, $email, $pass, $answer1, $answer2) {
             $this->setID($id);
-            $this->setName($name);
             $this->setPassword($pass);
             $this->setSecurityAnswer1($answer1);
             $this->setSecurityAnswer2($answer2);
+            $this->setEmail($email);
+        }
+        public function setEmail($email) {
+            $this->email = $email;
         }
         
-        public function setName($name) {
-            $this->user_name = $name;
-        }
-        
-        public function getName() {
-            return $this->user_name;
+        public function getEmail() {
+            return $this->email;
         }
         
         public function setPassword($password) {

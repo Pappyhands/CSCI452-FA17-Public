@@ -1,5 +1,5 @@
 <?php
-    class UserObject {
+    class SnippetObject {
         
         private $snippet_id = null;
         private $creator_id = null;

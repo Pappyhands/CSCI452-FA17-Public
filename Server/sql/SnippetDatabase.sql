@@ -3,7 +3,7 @@ USE SnippetGoodDatabase;
 
 CREATE TABLE User_Data(
 UserID BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-Username VARCHAR(32) UNIQUE NOT NULL,
+Email VARCHAR(32) UNIQUE NOT NULL,
 Password VARCHAR(64) NOT NULL,
 SecurityAnswer1 VARCHAR(64) NOT NULL,
 SecurityAnswer2 VARCHAR(64) NOT NULL
@@ -11,7 +11,8 @@ SecurityAnswer2 VARCHAR(64) NOT NULL
 
 CREATE TABLE Language_Data(
 LanguageID BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-LanguageName VARCHAR(32)
+LanguageName VARCHAR(32),
+Language_Code VARCHAR(32)
 );
 
 CREATE TABLE Snippet_Data(
@@ -26,7 +27,7 @@ FOREIGN KEY (CreatorID) REFERENCES User_Data(UserID)
 
 USE SnippetGoodDatabase;
 
-INSERT INTO User_Data(Username, Password, SecurityAnswer1, SecurityAnswer2) VALUES
+INSERT INTO User_Data(Email, Password, SecurityAnswer1, SecurityAnswer2) VALUES
 ("Aaron Smith", "8e72c2d77c68b351be2e2ff480f0a552", "Smith", "Spot"),
 ("WizardProfessor", "4f6dab54642c49d343243be5cd0c885d", "Malkovich", "Barack Obama"),
 ("Richard Dude", "f2638dbff86c757afa70670c11254a67", "YouAndWhatArmy", "IRequireAShrubbery"),
