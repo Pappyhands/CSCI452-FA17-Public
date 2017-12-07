@@ -20,8 +20,8 @@ This course places teams of students in an agile development environment where t
 ## Release 3 - Snippet Management (SM)
 - [x] **SM1 -** As an authenticated user I want to be able to be able to create a new snippet and specify the snippet's language, description, and code.
 - [x] **SM2 -** As an authenticated user I want to be able to be able to select from a list of predefined languages when associating a language with a new snippet.
-- [ ] **SM3 -** As an authenticated user I want to be able to be able to delete or edit snippets that I have created.
-- [ ] **SM4 -** As an authenticated user I want to be sure that other users cannot delete or edit snippets that I have created.
+- [x] **SM3 -** As an authenticated user I want to be able to be able to delete or edit snippets that I have created.
+- [x] **SM4 -** As an authenticated user I want to be sure that other users cannot delete or edit snippets that I have created.
 - 
 
 <-- Convention -->
